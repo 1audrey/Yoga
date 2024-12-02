@@ -1,3 +1,44 @@
 .logo-icon {
-  color: pink;
+  color: white;
+}
+
+.logo-icon:hover{
+color: #E6E6FA;
+cursor: pointer;
+}
+
+.header{
+  display:flex;
+  background-color: #452c63;
+  justify-content: center;
+  justify-content: space-evenly;
+  padding: 1rem;
+}
+
+.user-icon{
+  color: white;
+  float: right;
+}
+
+.user-icon:hover{
+  color: #D8BFD8;
+  cursor: pointer;
+}
+
+.mat-icon{
+  font-size: 2.125rem;
+}
+
+button{
+  padding: 0.625rem;
+  background-color: #452c63;
+  border: none;
+  color: white;
+  font:bold;
+  font-size:medium;
+}
+
+button:hover{
+  color: #D8BFD8;
+  cursor: pointer;
 }
