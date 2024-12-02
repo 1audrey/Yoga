@@ -7,13 +7,17 @@ color: #E6E6FA;
 cursor: pointer;
 }
 
-.header{
+ul{
   display:flex;
-  background-color: #452c63;
   justify-content: center;
   justify-content: space-evenly;
-  padding: 1rem;
   align-items: center;
+  list-style: none;
+}
+
+.header{
+  background-color: #452c63;
+  padding: 0.05rem;
 }
 
 .user-icon{
