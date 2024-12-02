@@ -13,11 +13,11 @@ cursor: pointer;
   justify-content: center;
   justify-content: space-evenly;
   padding: 1rem;
+  align-items: center;
 }
 
 .user-icon{
   color: white;
-  float: right;
 }
 
 .user-icon:hover{
