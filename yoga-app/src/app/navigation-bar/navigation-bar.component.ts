@@ -7,5 +7,13 @@ import { Component } from '@angular/core';
 })
 
 export class NavigationBarComponent {
+  isShopMenuOpen = false;
+  shopSubMenu = ['All','Men Clothes', 'Female Clothes', 'Mats', 'Accessories', 'Vouchers']
 
+  toggleSubMenu(){
+    if(this.isShopMenuOpen){
+      this.isShopMenuOpen = false
+    } else this.isShopMenuOpen = true;
+  }
 }
+
