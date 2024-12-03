@@ -2,20 +2,24 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavigationBarComponent } from './navigation-bar.component';
 import { By } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
   let fixture: ComponentFixture<NavigationBarComponent>;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NavigationBarComponent],
-      imports: [MatIconModule, BrowserAnimationsModule]
+      imports: [MatIconModule, BrowserAnimationsModule,
+      ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(NavigationBarComponent);
+    router = TestBed.inject(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -132,5 +136,14 @@ describe('NavigationBarComponent', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('shop should redirect the user to the homepage when the homepage button is clicked', () => {
+      const logo = fixture.debugElement.query(By.css('.logo')).nativeElement;
+
+      logo.click();
+      fixture.detectChanges();
+
+      expect(router.url).toEqual('/');
     });
 });
