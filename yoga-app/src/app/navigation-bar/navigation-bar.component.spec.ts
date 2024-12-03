@@ -3,23 +3,28 @@ import { NavigationBarComponent } from './navigation-bar.component';
 import { By } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { routes } from '../app-routing.module';
+import { Location } from '@angular/common';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
   let fixture: ComponentFixture<NavigationBarComponent>;
   let router: Router;
+  let location: Location;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NavigationBarComponent],
-      imports: [MatIconModule, BrowserAnimationsModule,
-      ]
+      imports: [MatIconModule, BrowserAnimationsModule, RouterModule.forRoot(routes)
+      ],
+      providers: [Location]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(NavigationBarComponent);
     router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -138,12 +143,23 @@ describe('NavigationBarComponent', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
-    it('shop should redirect the user to the homepage when the homepage button is clicked', () => {
+    it('shop should redirect the user to the homepage when the homepage button is clicked', async() => {
       const logo = fixture.debugElement.query(By.css('.logo')).nativeElement;
 
       logo.click();
-      fixture.detectChanges();
+      await fixture.whenStable();
 
-      expect(router.url).toEqual('/');
+      fixture.detectChanges();
+      expect(location.path()).toEqual('');
+    });
+
+    it('shop should redirect the user to the book classes page when the book classes button is clicked', async() => {
+      const bookButton = fixture.debugElement.query(By.css('.book-classes')).nativeElement;
+
+      bookButton.click();
+      await fixture.whenStable();
+
+      fixture.detectChanges();
+      expect(location.path()).toEqual('/book-classes');
     });
 });
