@@ -31,12 +31,15 @@ describe('NavigationBarComponent', () => {
     expect(logo).toBeDefined();
     expect(logoIcon).toBeDefined();
     expect(logoIcon.innerText).toEqual('spa');
+    expect(logo.getAttribute('aria-label')).toEqual('Home page');
   });
 
   it('should have a user icon', () => {
     const userIcon = fixture.debugElement.query(By.css('.user-icon')).nativeElement;
 
     expect(userIcon).toBeDefined();
+    expect(userIcon.getAttribute('aria-label')).toEqual('Log in');
+
   });
 
   it('should have a book classes button', () => {

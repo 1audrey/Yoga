@@ -1,14 +1,20 @@
-<div class="header">
-  <div class="logo">
-    <mat-icon class="logo-icon">spa</mat-icon>
-  </div>
-  <div>
-    <button mat-flat-button class="book-classes">Book classes</button>
-  </div>
-  <div>
-    <button mat-flat-button class="shop">Shop</button>
-  </div>
-  <div>
-    <mat-icon class="user-icon">account_circle</mat-icon>
-  </div>
-</div>
+<header class="header">
+  <ul>
+    <li>
+      <a>
+        <button class="logo" aria-label="Home page" role="link">
+          <mat-icon class="logo-icon">spa</mat-icon>
+        </button>
+      </a>
+    </li>
+    <li>
+      <button mat-flat-button role="link" class="book-classes">Book classes</button>
+    </li>
+    <li>
+      <button mat-flat-button role="link" class="shop">Shop</button>
+    </li>
+    <li>
+      <button class="user-icon" aria-label="Log in" role="link"><mat-icon>account_circle</mat-icon></button>
+    </li>
+  </ul>
+</header>
