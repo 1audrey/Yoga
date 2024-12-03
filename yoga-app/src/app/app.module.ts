@@ -4,6 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,10 @@ import { AppComponent } from './app.component';
   imports: [
     MatIconModule,
     BrowserModule,
-    BrowserAnimationsModule // Required for Angular Material animations
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,19 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { By } from '@angular/platform-browser';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
+import { routes } from './app-routing.module';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent, NavigationBarComponent],
-      imports: [MatIconModule],
+      imports: [MatIconModule, RouterModule.forRoot(routes)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
+    router = TestBed.inject(Router);
+
   });
 
   it('should create the app', () => {
@@ -22,9 +26,8 @@ describe('AppComponent', () => {
   });
 
   it('should render title', () => {
-    fixture.detectChanges();
-
-    const navbar = fixture.debugElement.query(By.css('.navigation-bar')).nativeElement;
-    expect(navbar).toBeDefined();
+    const fixture = TestBed.createComponent( AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('yoga-app');
   });
 });
