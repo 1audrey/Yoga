@@ -10,11 +10,19 @@
     <li>
       <button mat-flat-button role="link" class="book-classes">Book classes</button>
     </li>
-    <li>
-      <button mat-flat-button role="link" class="shop">Shop</button>
+    <li class="shop-menu">
+      <button mat-flat-button role="link" class="shop" (click)="toggleSubMenu()">Shop
+      </button>
+        <span *ngIf="!isShopMenuOpen" class="arrow-right-icon"><mat-icon>keyboard_arrow_right</mat-icon></span>
+        <span *ngIf="isShopMenuOpen" class="arrow-down-icon"><mat-icon>keyboard_arrow_down</mat-icon></span>
+      <ul class="shop-sub-menu" *ngIf="isShopMenuOpen">
+        <li class="product-menu" *ngFor="let submenu of shopSubMenu">
+          <a class="product" role="link" tabindex="0" (keydown.escape)="toggleSubMenu()">{{submenu}}</a>
+        </li>
+      </ul>
     </li>
     <li>
-      <button class="user-icon" aria-label="Log in" role="link"><mat-icon>account_circle</mat-icon></button>
+      <button class="user" aria-label="Log in" role="link"><mat-icon class="user-icon">account_circle</mat-icon></button>
     </li>
   </ul>
 </header>
