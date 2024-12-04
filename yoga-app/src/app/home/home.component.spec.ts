@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BookClassesComponent } from './book-classes.component';
+
+import { HomeComponent } from './home.component';
 import { By } from '@angular/platform-browser';
 
-
-describe('BookClassesComponent', () => {
-  let component: BookClassesComponent;
-  let fixture: ComponentFixture<BookClassesComponent>;
+describe('HomeComponent', () => {
+  let component: HomeComponent;
+  let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BookClassesComponent],
+      declarations: [HomeComponent],
       imports: []
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BookClassesComponent);
+    fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -26,6 +26,6 @@ describe('BookClassesComponent', () => {
   it('should have heading h2 visible', () => {
     const h2 = fixture.debugElement.query(By.css('.visually-hidden')).nativeElement;
     expect(h2).toBeDefined();
-    expect(h2.innerText).toEqual('Book a Yoga Class')
+    expect(h2.innerText).toEqual('Yoga Stretford Home Page')
   });
 });

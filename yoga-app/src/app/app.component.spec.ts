@@ -27,14 +27,17 @@ describe('AppComponent', () => {
   });
 
   it('should render title', () => {
-    const fixture = TestBed.createComponent( AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('yoga-app');
   });
 
-  fit('should have navigation bar visible', () => {
-    const fixture = TestBed.createComponent( AppComponent);
+  it('should have navigation bar visible', () => {
     const navBar = fixture.debugElement.query(By.css('.navbar')).nativeElement;
     expect(navBar).toBeDefined();
+  });
+
+  it('should have heading h1 visible', () => {
+    const h1 = fixture.debugElement.query(By.css('.visually-hidden')).nativeElement;
+    expect(h1).toBeDefined();
   });
 });

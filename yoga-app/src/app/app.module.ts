@@ -7,12 +7,18 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { BookClassesComponent } from './book-classes/book-classes.component';
+import { UserComponent } from './user/user.component';
+import { ShopAllComponent } from './shop-all/shop-all.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationBarComponent,
     BookClassesComponent,
+    UserComponent,
+    ShopAllComponent,
+    HomeComponent,
   ],
   imports: [
     MatIconModule,

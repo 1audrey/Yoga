@@ -26,6 +26,7 @@ describe('NavigationBarComponent', () => {
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
     component = fixture.componentInstance;
+    component.isShopMenuOpen = false;
     fixture.detectChanges();
   });
 
@@ -66,7 +67,6 @@ describe('NavigationBarComponent', () => {
   });
 
   it('shop should have a shop sub menu when shop i clicked', () => {
-    component.isShopMenuOpen = false;
     const shopButton = fixture.debugElement.query(By.css('.shop')).nativeElement;
 
     shopButton.click();
@@ -77,7 +77,6 @@ describe('NavigationBarComponent', () => {
   });
 
   it('shop should have six sub menu', () => {
-    component.isShopMenuOpen = false;
     const shopButton = fixture.debugElement.query(By.css('.shop')).nativeElement;
 
     shopButton.click();
@@ -87,12 +86,11 @@ describe('NavigationBarComponent', () => {
 
     expect(productMenu.length).toEqual(6);
     for(let i = 0; i < productMenu.length; i++){
-      expect(productMenu[i].nativeElement.innerText).toEqual(component.shopSubMenu[i])
+      expect(productMenu[i].nativeElement.innerText).toEqual(component.shopSubMenu[i].name)
     }
   });
 
   it('shop should show right arrow icon when shop menu is closed', () => {
-    component.isShopMenuOpen = false;
     const arrowIcon = fixture.debugElement.query(By.css('.arrow-right-icon')).nativeElement;
 
     expect(arrowIcon).toBeDefined();
@@ -161,5 +159,28 @@ describe('NavigationBarComponent', () => {
 
       fixture.detectChanges();
       expect(location.path()).toEqual('/book-classes');
+    });
+
+    it('shop should redirect the user to the user page when the user button is clicked', async() => {
+      const userButton = fixture.debugElement.query(By.css('.user')).nativeElement;
+
+      userButton.click();
+      await fixture.whenStable();
+
+      fixture.detectChanges();
+      expect(location.path()).toEqual('/user');
+    });
+
+    it('shop should redirect the user to the shop all page when the shop all button is clicked', async() => {
+      component.isShopMenuOpen = true;
+      fixture.detectChanges();
+
+      const shopAllButton = fixture.debugElement.queryAll(By.css('.product'))[0].nativeElement;
+
+      shopAllButton.click();
+      await fixture.whenStable();
+
+      fixture.detectChanges();
+      expect(location.path()).toEqual('/shop-all');
     });
 });
