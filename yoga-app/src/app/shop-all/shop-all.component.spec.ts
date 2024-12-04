@@ -28,4 +28,10 @@ describe('ShopAllComponent', () => {
     expect(h2).toBeDefined();
     expect(h2.innerText).toEqual('Shop All Products')
   });
+
+  it('section should have a aria label', () => {
+    const section = fixture.debugElement.query(By.css('section')).nativeElement;
+
+    expect(section.getAttribute('aria-label')).toEqual('Shop All Products');
+  });
 });
