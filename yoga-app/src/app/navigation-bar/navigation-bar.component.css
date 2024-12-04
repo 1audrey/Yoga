@@ -1,11 +1,11 @@
 .logo-icon {
-  color: white;
+  color: var(--font-color-white);
   font-size: 2.125rem;
 }
 
 .logo-icon:hover{
-color: #E6E6FA;
-cursor: pointer;
+  color: var(--background-light-lavender);
+  cursor: pointer;
 }
 
 ul{
@@ -17,32 +17,32 @@ ul{
 }
 
 .header{
-  background-color: #452c63;
+  background-color: var(--background-dark-lavender);
   padding: 0.05rem;
   position: relative;
 }
 
 .user-icon{
-  color: white;
+  color: var(--font-color-white);
   font-size: 2.125rem;
 }
 
 .user-icon:hover{
-  color: #D8BFD8;
+  color: var(--background-medium-lavender);;
   cursor: pointer;
 }
 
 button{
   padding: 0.625rem;
-  background-color: #452c63;
+  background-color: var(--background-dark-lavender);;
   border: none;
-  color: white;
-  font:bold;
-  font-size:medium;
+  color: var(--font-color-white);
+  font-weight: 550;
+  font-size: medium;
 }
 
 button:hover{
-  color: #D8BFD8;
+  color: var(--background-medium-lavender);;
   cursor: pointer;
 }
 
@@ -53,8 +53,8 @@ button:hover{
 
 .shop-sub-menu{
   display: flex;
-  background-color: #D8BFD8;
-  color: black;
+  background-color: var(--background-medium-lavender);;
+  color: var(--font-color-black);
   flex-direction: column;
   align-items: stretch;
   position: absolute;
@@ -65,12 +65,27 @@ button:hover{
   z-index: 1000;
 }
 
+.product{
+  text-decoration: none;
+  color: var(--font-color-black);
+  font-weight: 600;
+}
+
+.product:hover{
+  color: var(--font-color-white);
+  font-weight: 600;
+}
+
+.product-menu{
+  padding: 0.625rem;
+}
+
 .arrow-right-icon{
-  color: white;
+  color: var(--font-color-white);
 }
 
 .arrow-down-icon{
-  color: #D8BFD8;
+  color: var(--background-medium-lavender);;
 }
 
 .shop-menu{
