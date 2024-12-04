@@ -4,6 +4,7 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { routes } from './app-routing.module';
+import { By } from '@angular/platform-browser';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -29,5 +30,11 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent( AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('yoga-app');
+  });
+
+  fit('should have navigation bar visible', () => {
+    const fixture = TestBed.createComponent( AppComponent);
+    const navBar = fixture.debugElement.query(By.css('.navbar')).nativeElement;
+    expect(navBar).toBeDefined();
   });
 });
