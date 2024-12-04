@@ -8,7 +8,13 @@ import { Component } from '@angular/core';
 
 export class NavigationBarComponent {
   isShopMenuOpen = false;
-  shopSubMenu = ['All','Men Clothes', 'Female Clothes', 'Mats', 'Accessories', 'Vouchers']
+  shopSubMenu = [
+    {name: 'All', route: 'shop-all'},
+    {name: 'Men Clothes', route: 'men-clothes'},
+    {name: 'Female Clothes', route: 'women-clothes'},
+    {name: 'Mats', route:'yoga-mats'},
+    {name: 'Accessories', route:'yoga-accessories'},
+    {name: 'Vouchers', route: 'vouchers'}]
 
   toggleSubMenu(){
     if(this.isShopMenuOpen){

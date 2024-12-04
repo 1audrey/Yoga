@@ -32,7 +32,7 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('yoga-app');
   });
 
-  fit('should have navigation bar visible', () => {
+  it('should have navigation bar visible', () => {
     const fixture = TestBed.createComponent( AppComponent);
     const navBar = fixture.debugElement.query(By.css('.navbar')).nativeElement;
     expect(navBar).toBeDefined();

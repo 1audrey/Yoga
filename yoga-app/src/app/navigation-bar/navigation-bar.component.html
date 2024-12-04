@@ -17,12 +17,12 @@
         <span *ngIf="isShopMenuOpen" class="arrow-down-icon"><mat-icon>keyboard_arrow_down</mat-icon></span>
       <ul class="shop-sub-menu" *ngIf="isShopMenuOpen">
         <li class="product-menu" *ngFor="let submenu of shopSubMenu">
-          <a class="product" role="link" tabindex="0" (keydown.escape)="toggleSubMenu()">{{submenu}}</a>
+          <a class="product" role="link" tabindex="0" routerLink="/{{submenu.route}}" (keydown.escape)="toggleSubMenu()">{{submenu.name}}</a>
         </li>
       </ul>
     </li>
     <li>
-      <button class="user" aria-label="Log in" role="link"><mat-icon class="user-icon">account_circle</mat-icon></button>
+      <button class="user" aria-label="Log in" role="link" routerLink="/user"><mat-icon class="user-icon">account_circle</mat-icon></button>
     </li>
   </ul>
 </header>
