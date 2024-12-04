@@ -2,9 +2,19 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 /* You can add global styles to this file, and also import other style files */
+:root {
+ //colors
+ --background-light-lavender: #E6E6FA;
+ --background-medium-lavender: #D8BFD8;
+ --background-dark-lavender: #452c63;
+ --font-color-black: black;
+ --font-color-white: white;
+}
+
 html, body {
   margin: 0;
   padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .visually-hidden{
