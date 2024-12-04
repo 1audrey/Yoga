@@ -1,28 +1,32 @@
 <header class="header">
-  <ul>
-    <li>
-      <a>
-        <button class="logo" aria-label="Home page" role="link" routerLink="/">
-          <mat-icon class="logo-icon">spa</mat-icon>
+  <nav>
+    <ul>
+      <li>
+        <a>
+          <button class="logo" aria-label="Home page" role="link" routerLink="/">
+            <mat-icon class="logo-icon">spa</mat-icon>
+          </button>
+        </a>
+      </li>
+      <li>
+        <button mat-flat-button role="link" class="book-classes" routerLink="/book-classes">Book classes</button>
+      </li>
+      <li class="shop-menu">
+        <button mat-flat-button role="link" class="shop" (click)="toggleSubMenu()">Shop
         </button>
-      </a>
-    </li>
-    <li>
-      <button mat-flat-button role="link" class="book-classes" routerLink="/book-classes">Book classes</button>
-    </li>
-    <li class="shop-menu">
-      <button mat-flat-button role="link" class="shop" (click)="toggleSubMenu()">Shop
-      </button>
         <span *ngIf="!isShopMenuOpen" class="arrow-right-icon"><mat-icon>keyboard_arrow_right</mat-icon></span>
         <span *ngIf="isShopMenuOpen" class="arrow-down-icon"><mat-icon>keyboard_arrow_down</mat-icon></span>
-      <ul class="shop-sub-menu" *ngIf="isShopMenuOpen">
-        <li class="product-menu" *ngFor="let submenu of shopSubMenu">
-          <a class="product" role="link" tabindex="0" routerLink="/{{submenu.route}}" (keydown.escape)="toggleSubMenu()">{{submenu.name}}</a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <button class="user" aria-label="Log in" role="link" routerLink="/user"><mat-icon class="user-icon">account_circle</mat-icon></button>
-    </li>
-  </ul>
+        <ul class="shop-sub-menu" *ngIf="isShopMenuOpen">
+          <li class="product-menu" *ngFor="let submenu of shopSubMenu">
+            <a class="product" role="link" tabindex="0" routerLink="/{{submenu.route}}"
+              (keydown.escape)="toggleSubMenu()">{{submenu.name}}</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <button class="user" aria-label="Log in" role="link" routerLink="/user"><mat-icon
+            class="user-icon">account_circle</mat-icon></button>
+      </li>
+    </ul>
+  </nav>
 </header>
