@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { BookClassesComponent } from './book-classes/book-classes.component';
+import { AppComponent } from './app.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', component: NavigationBarComponent },
+  { path: '', pathMatch: 'full', component: AppComponent },
   { path: 'book-classes', component: BookClassesComponent}
 ];
 
