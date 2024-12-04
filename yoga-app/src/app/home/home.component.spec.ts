@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import { By } from '@angular/platform-browser';
+import { BookClassesComponent } from '../book-classes/book-classes.component';
+import { ShopAllComponent } from '../shop-all/shop-all.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -9,7 +11,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeComponent],
+      declarations: [HomeComponent, BookClassesComponent, ShopAllComponent],
       imports: []
     })
     .compileComponents();
@@ -33,5 +35,17 @@ describe('HomeComponent', () => {
     const section = fixture.debugElement.query(By.css('section')).nativeElement;
 
     expect(section.getAttribute('aria-label')).toEqual('Yoga Stretford Home Page');
+  });
+
+  it('should enable user to book a class', () => {
+    const bookAClass = fixture.debugElement.query(By.css('book-classes')).nativeElement;
+
+    expect(bookAClass).toBeDefined();
+  });
+
+  it('should enable user to book a class', () => {
+    const shopAll = fixture.debugElement.query(By.css('shop-all')).nativeElement;
+
+    expect(shopAll).toBeDefined();
   });
 });
