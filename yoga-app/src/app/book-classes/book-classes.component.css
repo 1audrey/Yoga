@@ -1,0 +1,24 @@
+.example-custom-date-class {
+  background: #E6E6FA;
+  border-radius: 100%;
+}
+
+.mat-calendar-body-selected {
+  background-color:#800080;
+  color: #fff;
+}
+
+.book-class{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-picker{
+margin:1.25rem;
+}
+
+.add-to-cart{
+  margin:1.25rem;
+}
+

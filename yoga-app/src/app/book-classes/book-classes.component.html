@@ -1,5 +1,17 @@
 <section aria-label="Book a Yoga Class">
   <h2 class="visually-hidden">Book a Yoga Class</h2>
-  <p>book-classes works!</p>
+  <ul class="book-class">
+    <li>
+      <mat-form-field class="date-picker">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" [matDatepickerFilter]="dateFilter">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker" class="toggle-button"></mat-datepicker-toggle>
+        <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+      </mat-form-field>
+    </li>
+    <li>
+      <button mat-raised-button aria-label="Add to cart" role="link" class="add-to-cart" [disabled]="!selectedDate" (click)="addToCart()">Add to cart</button>
+    </li>
+  </ul>
 </section>
-
