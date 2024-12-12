@@ -1,9 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
-import { By } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { BookClassesComponent } from '../book-classes/book-classes.component';
 import { ShopAllComponent } from '../shop-all/shop-all.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { routes } from '../app-routing.module';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -12,7 +20,17 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [HomeComponent, BookClassesComponent, ShopAllComponent],
-      imports: []
+      imports: [
+        MatDatepickerModule,
+        MatNativeDateModule,
+        BrowserModule,
+        MatFormFieldModule,
+        MatInputModule,
+        NoopAnimationsModule,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterModule.forRoot(routes)
+      ]
     })
     .compileComponents();
 

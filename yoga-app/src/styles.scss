@@ -27,3 +27,29 @@ html, body {
   border: 0;
   overflow: hidden;
 }
+
+.add-to-cart{
+  background-color: var(--background-medium-lavender) !important;
+  color:var(--font-color-black);
+}
+
+.add-to-cart:hover{
+  background-color: var(--background-light-lavender)!important;
+}
+
+ul{
+  list-style: none;
+}
+
+.mat-flat-button:focus {
+  outline: 2px solid white;
+  outline-offset: 4px;
+  box-shadow: 0 0 10px white;
+}
+
+.mat-raised-button:focus{
+  outline: 2px solid var(--background-dark-lavender);
+  outline-offset: 4px;
+  box-shadow: 0 0 10px var(--background-dark-lavender);
+}
+
