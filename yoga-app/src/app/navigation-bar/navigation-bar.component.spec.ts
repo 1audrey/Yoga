@@ -49,7 +49,13 @@ describe('NavigationBarComponent', () => {
 
     expect(userIcon).toBeDefined();
     expect(userIcon.getAttribute('aria-label')).toEqual('Log in');
+  });
 
+  it('should have a cart icon', () => {
+    const cartIcon = fixture.debugElement.query(By.css('.cart')).nativeElement;
+
+    expect(cartIcon).toBeDefined();
+    expect(cartIcon.getAttribute('aria-label')).toEqual('Cart');
   });
 
   it('should have a book classes button', () => {
@@ -66,7 +72,7 @@ describe('NavigationBarComponent', () => {
     expect(shopButton.innerText).toEqual('Shop')
   });
 
-  it('shop should have a shop sub menu when shop i clicked', () => {
+  it('shop should have a shop sub menu when shop button is clicked', () => {
     const shopButton = fixture.debugElement.query(By.css('.shop')).nativeElement;
 
     shopButton.click();
@@ -169,6 +175,16 @@ describe('NavigationBarComponent', () => {
 
       fixture.detectChanges();
       expect(location.path()).toEqual('/user');
+    });
+
+    it('shop should redirect the user to the cart page when the cart button is clicked', async() => {
+      const cartButton = fixture.debugElement.query(By.css('.cart')).nativeElement;
+
+      cartButton.click();
+      await fixture.whenStable();
+
+      fixture.detectChanges();
+      expect(location.path()).toEqual('/cart');
     });
 
     it('shop should redirect the user to the shop all page when the shop all button is clicked', async() => {

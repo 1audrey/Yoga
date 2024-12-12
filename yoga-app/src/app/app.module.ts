@@ -16,6 +16,7 @@ import { ShopAllComponent } from './shop-all/shop-all.component';
 import { HomeComponent } from './home/home.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     UserComponent,
     ShopAllComponent,
     HomeComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,
