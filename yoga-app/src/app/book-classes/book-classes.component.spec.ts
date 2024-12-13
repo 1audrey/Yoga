@@ -4,18 +4,21 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepicker, MatDatepickerInput, MatDatepickerModule } from '@angular/material/datepicker';
-import { RouterModule } from '@angular/router';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { Router, RouterModule } from '@angular/router';
 import { routes } from '../app-routing.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NativeDateAdapter } from '@angular/material/core';
+import { CartService } from '../services/cart-service/cart.service';
 
 describe('BookClassesComponent', () => {
   let component: BookClassesComponent;
   let fixture: ComponentFixture<BookClassesComponent>;
   let datepicker: MatDatepicker<Date>;
+  let router: Router;
+  let cartService: CartService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,15 +32,18 @@ describe('BookClassesComponent', () => {
         NoopAnimationsModule,
         ReactiveFormsModule,
         FormsModule,
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes),
+        RouterModule,
       ],
-      providers: [NativeDateAdapter],
+      providers: [NativeDateAdapter, CartService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(BookClassesComponent);
     component = fixture.componentInstance;
+    cartService = TestBed.inject(CartService);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
 
     datepicker = fixture.debugElement.query(By.directive(MatDatepicker)).componentInstance;
@@ -145,5 +151,30 @@ describe('BookClassesComponent', () => {
     const button = fixture.debugElement.query(By.css('.add-to-cart')).nativeElement;
 
     expect(button.disabled).toBeFalsy;
+  });
+
+  it('should redirect the user to the cart page when a class is added to the cart', () => {
+    const routerSpy = spyOn(router, 'navigate');
+    component.selectedDate = new Date();
+
+    component.addToCart();
+
+    expect(routerSpy).toHaveBeenCalled();
+  });
+
+  it('should not redirect the user to the cart page if no date is selected', () => {
+    const routerSpy = spyOn(router, 'navigate');
+
+    component.addToCart();
+
+    expect(routerSpy).not.toHaveBeenCalled();
+  });
+
+  it('should add 1 next to cart icon when adding a class to the cart', () => {
+    const cartSpy = spyOn(cartService, 'addItemToCart');
+    component.selectedDate = new Date();
+
+    component.addToCart();
+    expect(cartSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -23,9 +23,11 @@
           </li>
         </ul>
       </li>
-      <li>
-        <button class="cart" aria-label="Cart" role="link" routerLink="/cart"><mat-icon
-            class="cart-icon">add_shopping_cart</mat-icon></button>
+      <li class="cart-section">
+        <button class="cart" aria-label="Cart" role="link" routerLink="/cart">
+          <mat-icon class="cart-icon">add_shopping_cart</mat-icon>
+        </button>
+        <span class="items-count" *ngIf="itemCount > 0">{{ itemCount }}</span>
       </li>
       <li>
         <button class="user" aria-label="Log in" role="link" routerLink="/user"><mat-icon

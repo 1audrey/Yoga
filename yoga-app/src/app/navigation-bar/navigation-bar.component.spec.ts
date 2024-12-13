@@ -6,25 +6,33 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router, RouterModule } from '@angular/router';
 import { routes } from '../app-routing.module';
 import { Location } from '@angular/common';
+import { CartService } from '../services/cart-service/cart.service';
+import { Subject } from 'rxjs';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
   let fixture: ComponentFixture<NavigationBarComponent>;
   let router: Router;
   let location: Location;
+  let cartService: CartService;
+  let itemAddedSource: Subject<void>;
 
   beforeEach(async () => {
+    itemAddedSource = new Subject<void>();
     await TestBed.configureTestingModule({
       declarations: [NavigationBarComponent],
       imports: [MatIconModule, BrowserAnimationsModule, RouterModule.forRoot(routes)
       ],
-      providers: [Location]
+      providers: [Location, 
+        { provide: CartService, useValue: { itemAdded$: itemAddedSource.asObservable(), addItemToCart: () => itemAddedSource.next() } }
+      ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(NavigationBarComponent);
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
+    cartService = TestBed.inject(CartService)
     component = fixture.componentInstance;
     component.isShopMenuOpen = false;
     fixture.detectChanges();
@@ -198,5 +206,32 @@ describe('NavigationBarComponent', () => {
 
       fixture.detectChanges();
       expect(location.path()).toEqual('/shop-all');
+    });
+
+    it('should show the number of items in the cart', () => { 
+      component.itemCount = 2;
+      fixture.detectChanges();
+
+      const itemsCount = fixture.debugElement.query(By.css('.items-count')).nativeElement;
+  
+      expect(itemsCount.innerText).toEqual('2');
+    });
+
+    it('should get the number of items in the cart and update the count', () => { 
+      component.itemCount = 0;
+      itemAddedSource.next();
+
+      component.ngOnInit();
+
+      expect(component.itemCount).toBe(1);
+    });
+
+    it('should stop subscription after loading', () => { 
+      const subscription = component.subscription; 
+      const unsubscribeSpy = spyOn(subscription, 'unsubscribe');
+
+      component.ngOnDestroy();
+
+      expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
     });
 });
