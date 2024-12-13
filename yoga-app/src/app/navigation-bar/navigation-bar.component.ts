@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { CartService } from '../services/cart-service/cart.service';
 
 @Component({
   selector: 'navigation-bar',
@@ -15,6 +17,23 @@ export class NavigationBarComponent {
     {name: 'Mats', route:'yoga-mats'},
     {name: 'Accessories', route:'yoga-accessories'},
     {name: 'Vouchers', route: 'vouchers'}]
+
+    itemCount: number = 0;
+    subscription!: Subscription;
+
+    constructor(private cartService: CartService){ }
+
+  ngOnInit() { 
+    this.subscription = this.cartService.itemAdded$.subscribe(() => {
+      this.itemCount++;
+      }); 
+   } 
+   
+   ngOnDestroy() { 
+    if(this.subscription){
+      this.subscription.unsubscribe(); 
+    }
+   }
 
   toggleSubMenu(){
     if(this.isShopMenuOpen){

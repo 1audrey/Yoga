@@ -92,3 +92,17 @@ button:hover{
   display: flex;
   align-items: center;
 }
+
+.items-count{
+  background-color: var(--background-light-lavender);
+  color: var(--font-color-black);
+  padding: 1.5px;
+  border-radius: 40%;
+  font-size: smaller;
+  font-weight: 600;
+}
+
+.cart-section{
+  display: flex;
+  align-items: flex-start;
+}

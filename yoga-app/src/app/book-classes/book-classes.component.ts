@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { MatCalendarCellClassFunction} from '@angular/material/datepicker';
+import { Router } from '@angular/router';
+import { CartService } from '../services/cart-service/cart.service';
 
 @Component({
   selector: 'book-classes',
@@ -9,6 +11,8 @@ import { MatCalendarCellClassFunction} from '@angular/material/datepicker';
 })
 export class BookClassesComponent {
   selectedDate!: Date;
+
+  constructor( private router: Router, private cartService: CartService) { }
 
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     if (view === 'month') {
@@ -30,8 +34,9 @@ export class BookClassesComponent {
 
   addToCart() {
      if (this.selectedDate) {
-      console.log('Selected Date:', this.selectedDate);
-      } else { console.log('No date selected');
-    }
+      this.cartService.addItemToCart();
+      this.router.navigate(['cart']);
+      } else return;
+    
   }
 }
