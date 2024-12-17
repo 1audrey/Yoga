@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { MatCalendarCellClassFunction} from '@angular/material/datepicker';
 import { Router } from '@angular/router';
 import { CartService } from '../services/cart-service/cart.service';
+import { Item } from '../models/item';
 
 @Component({
   selector: 'book-classes',
@@ -34,7 +35,13 @@ export class BookClassesComponent {
 
   addToCart() {
      if (this.selectedDate) {
-      this.cartService.addItemToCart();
+      let item: Item = {
+        name: `Class on the ${this.selectedDate.toLocaleDateString()}`,
+        price: 10,
+        quantity: 1,
+      };
+      
+      this.cartService.addItemToCart(item);
       this.router.navigate(['cart']);
       } else return;
     
