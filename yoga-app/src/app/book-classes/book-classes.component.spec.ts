@@ -12,6 +12,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NativeDateAdapter } from '@angular/material/core';
 import { CartService } from '../services/cart-service/cart.service';
+import { Item } from '@app/models/item';
 
 describe('BookClassesComponent', () => {
   let component: BookClassesComponent;
@@ -170,11 +171,16 @@ describe('BookClassesComponent', () => {
     expect(routerSpy).not.toHaveBeenCalled();
   });
 
-  it('should add 1 next to cart icon when adding a class to the cart', () => {
+  it('should add a class to the cart', () => {
     const cartSpy = spyOn(cartService, 'addItemToCart');
     component.selectedDate = new Date();
+    let item: Item = {
+      name: `Class on the ${component.selectedDate.toLocaleDateString()}`,
+      price: 10,
+      quantity: 1,
+    };
 
     component.addToCart();
-    expect(cartSpy).toHaveBeenCalledTimes(1);
+    expect(cartSpy).toHaveBeenCalledOnceWith(item);
   });
 });

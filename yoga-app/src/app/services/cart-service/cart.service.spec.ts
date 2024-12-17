@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CartService } from './cart.service';
+import { Item } from '@app/models/item';
 
 describe('CartService', () => {
   let service: CartService;
@@ -16,8 +17,13 @@ describe('CartService', () => {
 
   it('should call next on itemAddedSource when addItemToCart is called', () => {
     const spy = spyOn(service['itemAddedSource'], 'next');
+        const itemsInCart : Item = {
+          name: 'Class',
+          price: 10,
+          quantity: 1
+        };
 
-    service.addItemToCart();
+    service.addItemToCart(itemsInCart);
 
     expect(spy).toHaveBeenCalled();
   });

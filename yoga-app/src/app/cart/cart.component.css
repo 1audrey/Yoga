@@ -1,0 +1,24 @@
+.list-items{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.total{
+    display: flex;
+    justify-content: flex-end;
+    padding: 2rem;
+    background-color: var(--background-light-lavender);
+    border-top-color: var(--background-dark-lavender);
+    border-top-style: dotted;
+}
+
+h3{
+    padding: 2rem;
+}
+
+.pay-now{
+    float: right;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    background-color: var(--background-medium-lavender);
+}
