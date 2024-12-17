@@ -47,13 +47,7 @@ describe('CartComponent', () => {
   });
 
   it('should show the items details in the cart', () => {
-    const itemsInCart : Item[] = [{
-      name: 'Class Dec 20',
-      price: 10,
-      quantity: 1,
-    }, 
-  ];
-    component.itemsInCart = itemsInCart;
+    component.itemsInCart = generateListOfItems(1);
 
     fixture.detectChanges();
     
@@ -63,20 +57,14 @@ describe('CartComponent', () => {
     const itemQuantity = fixture.debugElement.queryAll(By.css('.item-quantity'));
 
     expect(items).toBeDefined();
-    expect(itemName.length).toEqual(itemsInCart.length);
-    expect(itemName[0].nativeElement.innerText).toEqual(itemsInCart[0].name);
-    expect(itemPrice[0].nativeElement.innerText).toEqual(`£${itemsInCart[0].price}`);
-    expect(itemQuantity[0].nativeElement.innerText).toEqual(`x ${itemsInCart[0].quantity}`);
+    expect(itemName.length).toEqual(component.itemsInCart.length);
+    expect(itemName[0].nativeElement.innerText).toEqual(component.itemsInCart[0].name);
+    expect(itemPrice[0].nativeElement.innerText).toEqual(`£${component.itemsInCart[0].price}`);
+    expect(itemQuantity[0].nativeElement.innerText).toEqual(`x ${component.itemsInCart[0].quantity}`);
   });
 
   it('should show the items details and total price in the cart with accessibility', () => {
-    const itemsInCart : Item[] = [{
-      name: 'Class Dec 20',
-      price: 10,
-      quantity: 1,
-    }, 
-  ];
-    component.itemsInCart = itemsInCart;
+    component.itemsInCart = generateListOfItems(1);
 
     fixture.detectChanges();
     
@@ -84,23 +72,13 @@ describe('CartComponent', () => {
     const itemPrice = fixture.debugElement.queryAll(By.css('.item-price'));
     const itemQuantity = fixture.debugElement.queryAll(By.css('.item-quantity'));
 
-    expect(itemName[0].nativeElement.getAttribute('aria-label')).toEqual('Item name: ' + itemsInCart[0].name);
-    expect(itemPrice[0].nativeElement.getAttribute('aria-label')).toEqual('Item price: £' + itemsInCart[0].price);
-    expect(itemQuantity[0].nativeElement.getAttribute('aria-label')).toEqual('Item quantity: ' + itemsInCart[0].quantity);
+    expect(itemName[0].nativeElement.getAttribute('aria-label')).toEqual('Item name: ' + component.itemsInCart[0].name);
+    expect(itemPrice[0].nativeElement.getAttribute('aria-label')).toEqual('Item price: £' + component.itemsInCart[0].price);
+    expect(itemQuantity[0].nativeElement.getAttribute('aria-label')).toEqual('Item quantity: ' + component.itemsInCart[0].quantity);
   });
 
   it('should show the total to pay', () => {
-    const itemsInCart : Item[] = [{
-      name: 'Dummy Class',
-      price: 10,
-      quantity: 1,
-    }, 
-    {
-      name: 'Dummy Class',
-      price: 10,
-      quantity: 1,
-    }, 
-  ];
+    const itemsInCart = generateListOfItems(2);
     spyOn(cartService, 'getItemsFromTheCart').and.returnValue(itemsInCart);
 
     component.ngOnInit(); 
@@ -115,13 +93,7 @@ describe('CartComponent', () => {
   });
   
   it('should have a pay now button', () => {
-    const itemsInCart : Item[] = [{
-      name: 'Class Dec 20',
-      price: 10,
-      quantity: 1,
-    }, 
-  ];
-    component.itemsInCart = itemsInCart;
+    component.itemsInCart = generateListOfItems(1);
 
     fixture.detectChanges();
     
@@ -132,13 +104,8 @@ describe('CartComponent', () => {
 
   it('should pay items when button is clicked', () => {
     const spy = spyOn(component, 'payItems');
-    const itemsInCart : Item[] = [{
-      name: 'Class Dec 20',
-      price: 10,
-      quantity: 1,
-    }, 
-  ];
-    component.itemsInCart = itemsInCart;
+
+    component.itemsInCart = generateListOfItems(1);
     
     fixture.detectChanges();
     
@@ -147,4 +114,18 @@ describe('CartComponent', () => {
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
+
+  function generateListOfItems(numberOfItem: number): Item[] {
+    let items: Item[] = [];
+
+    for (let index = 0; index < numberOfItem; index ++){
+      const itemInCart : Item = {
+        name: `Class ${index}`,
+        price: 10,
+        quantity: 1,
+      };
+      items.push(itemInCart);
+    }
+  return items;
+  }
 });
