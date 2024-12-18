@@ -59,7 +59,7 @@ describe('CartComponent', () => {
     component.itemsInCart = generateListOfItems(1);
 
     fixture.detectChanges();
-    
+
     const itemName = fixture.debugElement.queryAll(By.css('.item-name'));
     const itemPrice = fixture.debugElement.queryAll(By.css('.item-price'));
     const itemQuantity = fixture.debugElement.queryAll(By.css('.item-quantity'));
@@ -104,7 +104,7 @@ describe('CartComponent', () => {
 
     fixture.detectChanges();
     
-    const button =fixture.debugElement.query(By.css('.pay-now')).nativeElement;
+    const button =fixture.debugElement.query(By.css('.action-button')).nativeElement;
 
     expect(button).toBeDefined();
   });
@@ -116,7 +116,7 @@ describe('CartComponent', () => {
     
     fixture.detectChanges();
     
-    const button = fixture.debugElement.query(By.css('.pay-now')).nativeElement;
+    const button = fixture.debugElement.query(By.css('.action-button')).nativeElement;
     button.click();
 
     expect(spy).toHaveBeenCalledTimes(1);

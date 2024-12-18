@@ -121,7 +121,7 @@ describe('BookClassesComponent', () => {
   });
 
   it('should have a add to cart button', () => {
-    const button = fixture.debugElement.query(By.css('.add-to-cart')).nativeElement;
+    const button = fixture.debugElement.query(By.css('.action-button')).nativeElement;
     expect(button).toBeDefined();
     expect(button.getAttribute('aria-label')).toEqual('Add to cart');
     expect(button.innerText).toEqual('Add to cart');
@@ -133,7 +133,7 @@ describe('BookClassesComponent', () => {
 
     const spy = spyOn(component, 'addToCart');
 
-    const button = fixture.debugElement.query(By.css('.add-to-cart')).nativeElement;
+    const button = fixture.debugElement.query(By.css('.action-button')).nativeElement;
     button.click();
     fixture.detectChanges();
 
@@ -141,7 +141,7 @@ describe('BookClassesComponent', () => {
   });
 
   it('should disable the add to the cart button when no date is selecte', () => {
-    const button = fixture.debugElement.query(By.css('.add-to-cart')).nativeElement;
+    const button = fixture.debugElement.query(By.css('.action-button')).nativeElement;
 
     expect(button.disabled).toBeTruthy();
   });
@@ -149,7 +149,7 @@ describe('BookClassesComponent', () => {
   it('should enable the add to the cart button when a date is selecte', () => {
     component.selectedDate = new Date();
     fixture.detectChanges();
-    const button = fixture.debugElement.query(By.css('.add-to-cart')).nativeElement;
+    const button = fixture.debugElement.query(By.css('.action-button')).nativeElement;
 
     expect(button.disabled).toBeFalsy;
   });
