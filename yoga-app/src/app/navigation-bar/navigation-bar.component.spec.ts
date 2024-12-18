@@ -8,6 +8,7 @@ import { routes } from '../app-routing.module';
 import { Location } from '@angular/common';
 import { CartService } from '../services/cart-service/cart.service';
 import { Subject } from 'rxjs';
+import { Item } from '@app/models/item';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
@@ -18,13 +19,11 @@ describe('NavigationBarComponent', () => {
   let itemAddedSource: Subject<void>;
 
   beforeEach(async () => {
-    itemAddedSource = new Subject<void>();
     await TestBed.configureTestingModule({
       declarations: [NavigationBarComponent],
       imports: [MatIconModule, BrowserAnimationsModule, RouterModule.forRoot(routes)
       ],
       providers: [Location, 
-        { provide: CartService, useValue: { itemAdded$: itemAddedSource.asObservable(), addItemToCart: () => itemAddedSource.next() } }
       ]
     })
     .compileComponents();
@@ -35,6 +34,9 @@ describe('NavigationBarComponent', () => {
     cartService = TestBed.inject(CartService)
     component = fixture.componentInstance;
     component.isShopMenuOpen = false;
+    itemAddedSource = new Subject<void>();
+    (cartService as any).itemAddedSource = itemAddedSource;
+    (cartService as any).itemAdded$ = itemAddedSource.asObservable();
     fixture.detectChanges();
   });
 
@@ -218,12 +220,15 @@ describe('NavigationBarComponent', () => {
     });
 
     it('should get the number of items in the cart and update the count', () => { 
-      component.itemCount = 0;
-      itemAddedSource.next();
+      component.itemCount = 0; 
+      const itemsInCart: Item[] = [{ name: 'Class', price: 10, quantity: 1 }];
 
-      component.ngOnInit();
+      spyOn(cartService, 'getItemsFromTheCart').and.returnValue(itemsInCart);
 
-      expect(component.itemCount).toBe(1);
+      component.ngOnInit(); 
+      itemAddedSource.next(); 
+      
+      expect(component.itemCount).toBe(itemsInCart.length); 
     });
 
     it('should stop subscription after loading', () => { 

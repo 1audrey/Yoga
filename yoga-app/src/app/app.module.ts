@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { CartComponent } from './cart/cart.component';
+import { ThankYouOrderComponent } from './thank-you-order/thank-you-order.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { CartComponent } from './cart/cart.component';
     ShopAllComponent,
     HomeComponent,
     CartComponent,
+    ThankYouOrderComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,7 @@ import { CartComponent } from './cart/cart.component';
     MatNativeDateModule,
     AppRoutingModule,
     RouterModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [NativeDateAdapter],
   bootstrap: [AppComponent],
