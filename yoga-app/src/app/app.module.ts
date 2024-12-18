@@ -18,7 +18,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { CartComponent } from './cart/cart.component';
 import { ThankYouOrderComponent } from './thank-you-order/thank-you-order.component';
-import { LocationComponent } from './location/location.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +29,6 @@ import { LocationComponent } from './location/location.component';
     HomeComponent,
     CartComponent,
     ThankYouOrderComponent,
-    LocationComponent
   ],
   imports: [
     BrowserModule,

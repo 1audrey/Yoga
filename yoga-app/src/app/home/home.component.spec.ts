@@ -12,7 +12,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { routes } from '../app-routing.module';
-import { LocationComponent } from '@app/location/location.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -21,7 +20,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeComponent, LocationComponent],
+      declarations: [HomeComponent],
       imports: [
         MatDatepickerModule,
         MatNativeDateModule,
@@ -110,11 +109,5 @@ describe('HomeComponent', () => {
 
     fixture.detectChanges();
     expect(location.path()).toEqual('/shop-all');
-  });
-
-  it('should show the class location', () => {
-    const classLocation = fixture.debugElement.query(By.css('location')).nativeElement;
-
-    expect(classLocation).toBeDefined();
   });
 });
