@@ -22,4 +22,13 @@ export class CartService {
   getItemsFromTheCart(): Item[] {
     return this.itemsInTheCart;
   }
+
+  deleteItems(){
+    this.itemsInTheCart = [];
+    this.resetItemAddedSource();
+  }
+
+  resetItemAddedSource() { 
+    this.itemAddedSource.next();
+  }
 }

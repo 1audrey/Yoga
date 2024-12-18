@@ -1,22 +1,30 @@
 <section role="region" aria-label="Cart">
-    <h2 class="visually-hidden">Cart</h2>
-    <div *ngIf="itemsInCart.length == 0; else itemsTemplate">
+  <h2 class="visually-hidden">Cart</h2>
+  <div class="summary">
+    <img src="../../assets/yoga-cart.jpg" alt="Cart Yoga Items" aria-hidden="true" class="cart-image">
+    <div class="list-summary">
+      <div *ngIf="itemsInCart.length == 0; else itemsTemplate">
         <h3 role="text" aria-label="Cart is empty" class="empty-cart-message" tabindex="0">Your cart is empty</h3>
-    </div>
+      </div>
 
-    <ng-template #itemsTemplate>
-        <ul role="list" class="cart-items">
-          <ng-container *ngFor="let item of itemsInCart">
+      <ng-template #itemsTemplate>
+        <ul role="list">
+          <ng-container *ngFor="let item of itemsInCart" class="cart-items">
             <li role="listitem" tabindex="0" class="list-items">
               <span class="item-name" role="text" [attr.aria-label]="'Item name: ' + item.name">{{item.name}}</span>
-              <span class="item-quantity" role="text" [attr.aria-label]="'Item quantity: ' + item.quantity">x {{item.quantity}}</span>
-              <span class="item-price" role="text" [attr.aria-label]="'Item price: £' + item.price">£{{item.price}}</span>
+              <span class="item-quantity" role="text" [attr.aria-label]="'Item quantity: ' + item.quantity">x
+                {{item.quantity}}</span>
+              <span class="item-price" role="text"
+                [attr.aria-label]="'Item price: £' + item.price">£{{item.price}}</span>
             </li>
           </ng-container>
         </ul>
         <div class="total" role="text" [attr.aria-label]="'Total price: £' + totalPriceInCart" tabindex="0">
-          <span class="total-price" >Total: £{{totalPriceInCart}}</span>
+          <span class="total-price">Total: £{{totalPriceInCart}}</span>
         </div>
-        <button mat-raised-button class="pay-now" aria-label="Pay now" role="link" (click)="payItems()">Pay now</button>
+        <button mat-raised-button class="pay-now" aria-label="Pay now" (click)="payItems()">Pay now</button>
       </ng-template>
+      
+    </div>
+  </div>
 </section>

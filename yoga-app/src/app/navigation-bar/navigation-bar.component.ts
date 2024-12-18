@@ -25,7 +25,7 @@ export class NavigationBarComponent {
 
   ngOnInit() { 
     this.subscription = this.cartService.itemAdded$.subscribe(() => {
-      this.itemCount++;
+      this.itemCount = this.cartService.getItemsFromTheCart().length;
       }); 
    } 
    

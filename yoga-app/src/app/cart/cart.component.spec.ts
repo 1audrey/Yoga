@@ -4,21 +4,30 @@ import { CartComponent } from './cart.component';
 import { By } from '@angular/platform-browser';
 import { Item } from '../models/item';
 import { CartService } from '@app/services/cart-service/cart.service';
+import { Router, RouterModule } from '@angular/router';
+import { routes } from '@app/app-routing.module';
 
 describe('CartComponent', () => {
   let component: CartComponent;
   let fixture: ComponentFixture<CartComponent>;
   let cartService: CartService;
+  let router: Router;
+  
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CartComponent],
+      imports:[        
+        RouterModule.forRoot(routes),
+        RouterModule,
+      ],
       providers: [CartService]  
     })
     .compileComponents();
     
     fixture = TestBed.createComponent(CartComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
     cartService = TestBed.inject(CartService);
     fixture.detectChanges();
   });
@@ -51,12 +60,10 @@ describe('CartComponent', () => {
 
     fixture.detectChanges();
     
-    const items = fixture.debugElement.query(By.css('.cart-items')).nativeElement;
     const itemName = fixture.debugElement.queryAll(By.css('.item-name'));
     const itemPrice = fixture.debugElement.queryAll(By.css('.item-price'));
     const itemQuantity = fixture.debugElement.queryAll(By.css('.item-quantity'));
 
-    expect(items).toBeDefined();
     expect(itemName.length).toEqual(component.itemsInCart.length);
     expect(itemName[0].nativeElement.innerText).toEqual(component.itemsInCart[0].name);
     expect(itemPrice[0].nativeElement.innerText).toEqual(`£${component.itemsInCart[0].price}`);
@@ -111,6 +118,30 @@ describe('CartComponent', () => {
     
     const button = fixture.debugElement.query(By.css('.pay-now')).nativeElement;
     button.click();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should redirect the user to thank you page when an order is paid', () => {
+    const routerSpy = spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+
+    component.payItems();
+
+    expect(routerSpy).toHaveBeenCalled();
+  });
+
+  it('should delete the items when order is paid', () => {
+    const spy = spyOn(component, 'deteleItems');
+
+    component.payItems();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should delete the items from the service when order is paid', () => {
+    const spy = spyOn(cartService, 'deleteItems');
+
+    component.deteleItems();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
