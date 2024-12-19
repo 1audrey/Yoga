@@ -204,6 +204,8 @@ describe('ShopAllComponent', () => {
     for (let index = 0; index<shops.length; index++){
       expect(titles[index].nativeElement.innerText).toEqual(expectedItems[index].name);
       expect(titles[index].nativeElement.getAttribute('aria-label')).toEqual(expectedItems[index].name);
+      expect(titles[index].nativeElement.getAttribute('role')).toEqual('heading');
+      expect(prices[index].nativeElement.getAttribute('role')).toEqual('text');
       expect(prices[index].nativeElement.getAttribute('aria-label')).toEqual('Price' + expectedItems[index].price +'pounds');
       expect(images[index].nativeElement.getAttribute('src')).toEqual(expectedItems[index].image);
       expect(images[index].nativeElement.getAttribute('alt')).toEqual(expectedItems[index].name);
