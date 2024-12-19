@@ -1,4 +1,56 @@
 <section aria-label="Shop All Products">
   <h2 class="visually-hidden">Shop All Products</h2>
-  <p>shop-all works!</p>
+  <div class="banner">
+    <div class="short-description" *ngIf="!toggle; else noToggle">
+      <p>
+        A collection of yoga wear, mats, and accessories that allows you to feel comfortable and present during your
+        practice. Get #YogaReady with our extensive...
+        <a class="toggle-description read-more" aria-expanded="false" aria-controls="full-description"
+          (click)="toggleDescription()">Read more</a>
+      </p>
+    </div>
+    <div class="buttons">
+    <button mat-raised-button role="link" class="action-button best-selling">Best Selling Yoga Mats</button>
+    <button mat-raised-button role="link" class="action-button best-selling">Best Selling Clothes</button>
+    <button mat-raised-button role="link" class="action-button best-selling">Best Selling Accessories</button>
+  </div>
+    <ng-template #noToggle>
+      <div class="long-description">
+        <p>
+          A collection of yoga wear, mats, and accessories that allows you to feel comfortable and present during your
+          practice. Get #YogaReady with our extensive collection of top-rated clothing, yoga mats and accessories.
+          Whether you're a beginner looking for a reliable yoga item to find your feet with, or you're an advanced yogi
+          looking for specific items to provide more support through rigorous routines, our collection are suitable for
+          all levels of practice. We have a various range of items from recycled ones made with sustainable materials,
+          to cork ones built to last a lifetime. Need assistance when it comes to deciding which yoga item is right for
+          you and your needs? <strong><a class="contact-us" role="link" routerLink="/">Contact us</a>.</strong>
+        </p>
+        <a class="toggle-description read-less" aria-expanded="true" aria-controls="full-description"
+          (click)="toggleDescription()">Read less</a>
+      </div>
+    </ng-template>
+  </div>
+  <div class="menus-body">
+    <mat-card class="card submenu" appearance="outlined" *ngFor="let menu of shopMenu">
+      <mat-card-header>
+        <mat-card-title class="title submenu" [attr.aria-label]="menu.name">{{menu.name}}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image class="image submenu" [src]="menu.image" aria-hidden="true" [alt]="'Shop ' + menu.name">
+      <mat-card-actions>
+        <button mat-raised-button role="link" class="action-button shop" [attr.aria-label]="'Shop ' + menu.name" [routerLink]="'/' + menu.route">Shop</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="body">
+    <mat-card class="card item" appearance="outlined" *ngFor="let item of items">
+      <mat-card-header>
+        <mat-card-title class="title item" [attr.aria-label]="item.name" role="heading">{{item.name}}</mat-card-title>
+        <mat-card-subtitle class="price" role="text" [attr.aria-label]="'Price' + item.price +'pounds'">£{{item.price}}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image class="image item" [src]="item.image" aria-hidden="true" [alt]="item.name">
+      <mat-card-actions>
+        <button mat-raised-button role="link" class="action-button add-to-cart" [attr.aria-label]="'Add' + item.name + 'to cart'" (click)="addToCart(item)">Add to cart</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </section>

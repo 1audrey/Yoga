@@ -47,9 +47,13 @@ ul{
   box-shadow: 0 0 10px white;
 }
 
-.mat-raised-button:focus{
-  outline: 2px solid var(--background-dark-lavender);
-  outline-offset: 4px;
-  box-shadow: 0 0 10px var(--background-dark-lavender);
+a:link, a:visited { 
+   color:var(--background-dark-lavender);
+   text-decoration: none; 
+}
+
+a:hover { 
+  color:var(--background-medium-lavender);
+  text-decoration: none; 
 }
 
