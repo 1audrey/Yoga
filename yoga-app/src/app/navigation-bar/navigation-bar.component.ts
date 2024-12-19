@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CartService } from '../services/cart-service/cart.service';
+import { ShopService } from '@app/services/shop.service';
 
 @Component({
   selector: 'navigation-bar',
@@ -10,23 +11,18 @@ import { CartService } from '../services/cart-service/cart.service';
 
 export class NavigationBarComponent {
   isShopMenuOpen = false;
-  shopSubMenu = [
-    {name: 'All', route: 'shop-all'},
-    {name: 'Men Clothes', route: 'men-clothes'},
-    {name: 'Female Clothes', route: 'women-clothes'},
-    {name: 'Mats', route:'yoga-mats'},
-    {name: 'Accessories', route:'yoga-accessories'},
-    {name: 'Vouchers', route: 'vouchers'}]
+  shopSubMenu: any = [];
 
     itemCount: number = 0;
     subscription!: Subscription;
 
-    constructor(private cartService: CartService){ }
+    constructor(private cartService: CartService, private shopService: ShopService){ }
 
   ngOnInit() { 
     this.subscription = this.cartService.itemAdded$.subscribe(() => {
       this.itemCount = this.cartService.getItemsFromTheCart().length;
       }); 
+    this.shopSubMenu = this.shopService.getShopMenu();
    } 
    
    ngOnDestroy() { 

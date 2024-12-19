@@ -1,0 +1,13 @@
+[
+    {"name": "Yoga legging pink", "price": 40, "quantity": 20, "image": "../../assets/shop/women/woman-pink-set.jpg"},
+    {"name": "Yoga legging red", "price": 40, "quantity": 20, "image": "../../assets/shop/women/woman-red-set.jpg"},
+    {"name": "Yoga legging black", "price": 40, "quantity": 20, "image": "../../assets/shop/women/woman-black-set.jpg"},
+    {"name": "Yoga legging blue", "price": 40, "quantity": 20, "image": "../../assets/shop/women/woman-blue-set.jpg"},
+    {"name": "Yoga legging zebra", "price": 40, "quantity": 20, "image": "../../assets/shop/women/woman-black-pattern-set.jpg"},
+    {"name": "Yoga legging burgundy", "price": 40, "quantity": 20, "image": "../../assets/shop/women/woman-burgundy-set.jpg"},
+    {"name": "Yoga legging colour", "price": 40, "quantity": 20, "image": "../../assets/shop/women/woman-red-pink-set.jpg"},
+    {"name": "Yoga top beige", "price": 20, "quantity": 20, "image": "../../assets/shop/women/woman-beige-top.jpg"},
+    {"name": "Yoga bra ponk", "price": 20, "quantity": 20, "image": "../../assets/shop/women/woman-pink-bra.jpg"},
+    {"name": "Yoga bra blue", "price": 20, "quantity": 20, "image": "../../assets/shop/women/woman-blue-bra.jpg"}
+
+]

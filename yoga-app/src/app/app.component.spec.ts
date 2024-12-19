@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { routes } from './app-routing.module';
 import { By } from '@angular/platform-browser';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -13,7 +14,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent, NavigationBarComponent],
-      imports: [MatIconModule, RouterModule.forRoot(routes)],
+      imports: [MatIconModule, RouterModule.forRoot(routes), HttpClientTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);

@@ -13,7 +13,12 @@ export const routes: Routes = [
   { path: 'user', component: UserComponent },
   { path: 'shop-all', component: ShopAllComponent },
   { path: 'cart', component: CartComponent },
-  { path:'thank-you', component: ThankYouOrderComponent}
+  { path:'thank-you', component: ThankYouOrderComponent },
+  { path: 'men-clothes', component: ThankYouOrderComponent },
+  { path: 'women-clothes', component: ThankYouOrderComponent },
+  { path: 'yoga-mats', component: ThankYouOrderComponent },
+  { path: 'yoga-accessories', component: ThankYouOrderComponent },
+  { path: 'vouchers', component: ThankYouOrderComponent }
 ];
 
 @NgModule({

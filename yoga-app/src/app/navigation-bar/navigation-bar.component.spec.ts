@@ -9,6 +9,8 @@ import { Location } from '@angular/common';
 import { CartService } from '../services/cart-service/cart.service';
 import { Subject } from 'rxjs';
 import { Item } from '@app/models/item';
+import { ShopService } from '@app/services/shop.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
@@ -17,13 +19,14 @@ describe('NavigationBarComponent', () => {
   let location: Location;
   let cartService: CartService;
   let itemAddedSource: Subject<void>;
+  let shopService: ShopService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NavigationBarComponent],
-      imports: [MatIconModule, BrowserAnimationsModule, RouterModule.forRoot(routes)
+      imports: [MatIconModule, BrowserAnimationsModule, RouterModule.forRoot(routes), HttpClientTestingModule
       ],
-      providers: [Location, 
+      providers: [Location, ShopService
       ]
     })
     .compileComponents();
@@ -32,6 +35,7 @@ describe('NavigationBarComponent', () => {
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
     cartService = TestBed.inject(CartService)
+    shopService = TestBed.inject(ShopService)
     component = fixture.componentInstance;
     component.isShopMenuOpen = false;
     itemAddedSource = new Subject<void>();
@@ -238,5 +242,16 @@ describe('NavigationBarComponent', () => {
       component.ngOnDestroy();
 
       expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should get the sub menu form the service', () => { 
+      const menu = [{name: 'All', route: 'shop-all', image:'../../assets/shop-all-yoga-clothes.jpg' }]
+
+      const spy = spyOn(shopService, 'getShopMenu').and.returnValue(menu);
+
+      component.ngOnInit();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(component.shopSubMenu).toEqual(menu);
     });
 });
