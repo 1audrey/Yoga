@@ -12,8 +12,8 @@
           <ng-container *ngFor="let item of itemsInCart" class="cart-items">
             <li role="listitem" tabindex="0" class="list-items">
               <span class="item-name" role="text" [attr.aria-label]="'Item name: ' + item.name">{{item.name}}</span>
-              <span class="item-quantity" role="text" [attr.aria-label]="'Item quantity: ' + item.quantity">x
-                {{item.quantity}}</span>
+              <span class="item-quantity" role="text" [attr.aria-label]="'Item quantity: ' + item.desiredQuantity">x
+                {{item.desiredQuantity}}</span>
               <span class="item-price" role="text"
                 [attr.aria-label]="'Item price: £' + item.price">£{{item.price}}</span>
             </li>

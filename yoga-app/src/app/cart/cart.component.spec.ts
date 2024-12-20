@@ -96,7 +96,6 @@ describe('CartComponent', () => {
 
     expect(totalPrice.innerText).toEqual(`Total: £${itemsInCart[0].price + itemsInCart[1].price}`);
     expect(totalLabel.getAttribute('aria-label')).toEqual('Total price: £' + (itemsInCart[0].price + itemsInCart[1].price));
-
   });
   
   it('should have a pay now button', () => {
@@ -154,6 +153,7 @@ describe('CartComponent', () => {
         name: `Class ${index}`,
         price: 10,
         quantity: 1,
+        desiredQuantity: 1,
       };
       items.push(itemInCart);
     }
