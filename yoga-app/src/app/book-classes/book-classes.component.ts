@@ -39,6 +39,7 @@ export class BookClassesComponent {
         name: `Class on the ${this.selectedDate.toLocaleDateString()}`,
         price: 10,
         quantity: 1,
+        desiredQuantity: 1
       };
       
       this.cartService.addItemToCart(item);

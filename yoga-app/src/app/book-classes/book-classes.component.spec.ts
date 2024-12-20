@@ -178,6 +178,7 @@ describe('BookClassesComponent', () => {
       name: `Class on the ${component.selectedDate.toLocaleDateString()}`,
       price: 10,
       quantity: 1,
+      desiredQuantity: 1,
     };
 
     component.addToCart();

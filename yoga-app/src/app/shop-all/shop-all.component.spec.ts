@@ -210,8 +210,8 @@ describe('ShopAllComponent', () => {
       expect(images[index].nativeElement.getAttribute('src')).toEqual(expectedItems[index].image);
       expect(images[index].nativeElement.getAttribute('alt')).toEqual(expectedItems[index].name);
       expect(images[index].nativeElement.getAttribute('aria-hidden')).toEqual('true');
-      expect(buttons[index].nativeElement.getAttribute('role')).toEqual('link');
-      expect(buttons[index].nativeElement.getAttribute('aria-label')).toEqual('Add' + expectedItems[index].name + 'to cart');
+      expect(buttons[index].nativeElement.getAttribute('role')).toEqual('button');
+      expect(buttons[index].nativeElement.getAttribute('aria-label')).toEqual('Add ' + expectedItems[index].name + ' to cart');
     }
   });
 
@@ -243,6 +243,146 @@ describe('ShopAllComponent', () => {
     component.addToCart(component.items[0]);
 
     expect(routerSpy).toHaveBeenCalledTimes(1);
+  });
+
+ it('should have a decrease quantity button', () => {
+    component.items = getExpectedItems();
+
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.decrease-qty')).nativeElement;
+
+    expect(button).toBeDefined();
+    expect(button.getAttribute('role')).toEqual('button');
+    expect(button.getAttribute('aria-label')).toEqual('Decrease Quantity');
+    expect(button.innerText).toEqual('-');
+  });
+
+  it('should have an increase quantity button', () => {
+    component.items = getExpectedItems();
+
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.increase-qty')).nativeElement;
+
+    expect(button).toBeDefined();
+    expect(button.getAttribute('role')).toEqual('button');
+    expect(button.getAttribute('aria-label')).toEqual('Increase Quantity');
+    expect(button.innerText).toEqual('+');
+  });
+
+  it('should show zero if the desired quantity is not defined', () => {
+    component.items = getExpectedItems();
+
+    fixture.detectChanges();
+    
+    const quantity = fixture.debugElement.query(By.css('.quantity')).nativeElement;
+
+    expect(quantity.innerText).toEqual('0');
+  });
+
+  it('should show the desired quantity', () => {
+    component.items = getExpectedItems();
+    component.items[0].desiredQuantity = 2;
+
+    fixture.detectChanges();
+    
+    const quantity = fixture.debugElement.queryAll(By.css('.quantity'))[0].nativeElement;
+
+    expect(quantity.innerText).toEqual('2');
+    expect(quantity.getAttribute('aria-live')).toEqual('polite');
+  });
+
+  it('should increase the quantity when the button is clicked', () => {
+    component.items = getExpectedItems();
+    const spy = spyOn(component, 'increaseQuantity');
+
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.increase-qty')).nativeElement;
+    button.click();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should increase the desired quantity', () => {
+    component.items = getExpectedItems();
+    component.items[0].desiredQuantity = 2
+    
+    component.increaseQuantity(component.items[0]);
+
+    expect(component.items[0].desiredQuantity).toEqual(3);
+  });
+
+  it('should not increase the desired quantity if there is not enough stock available', () => {
+    component.items = getExpectedItems();
+    component.items[0].desiredQuantity = 2
+    component.items[0].quantity = 2;
+    
+    component.increaseQuantity(component.items[0]);
+
+    expect(component.items[0].desiredQuantity).toEqual(2);
+  });
+
+  it('should show error message when the desired quantity is lower than the stock available', () => {
+    component.items = getExpectedItems();
+    component.items[0].desiredQuantity = 2;
+    component.items[0].quantity = 2;
+
+    component.increaseQuantity(component.items[0]);
+    fixture.detectChanges();
+    
+    const error = fixture.debugElement.query(By.css('.no-stock-message')).nativeElement;
+
+    expect(error).toBeDefined();
+    expect(error.getAttribute('role')).toEqual('alert');
+    expect(error.getAttribute('aria-label')).toEqual('Not enough stock available for more');
+    expect(error.innerText).toEqual('Not enough stock available for more');
+    expect(component.outOfStock[component.items[0].name]).toBeTrue();
+  });
+
+  it('should not show error message when the desired quantity is equal to the stock available', () => {
+    component.items = getExpectedItems();
+    component.items[0].desiredQuantity = 1;
+    component.items[0].quantity = 2;
+
+    component.increaseQuantity(component.items[0]);
+    fixture.detectChanges();
+    
+    expect(component.outOfStock[component.items[0].name]).not.toBeDefined();
+  });
+
+  it('should increase the desired quantity if the desired quantity is undefined', () => {
+    component.items = getExpectedItems();
+    
+    component.increaseQuantity(component.items[0]);
+
+    expect(component.items[0].desiredQuantity).toEqual(1);
+  });
+
+  it('should decrease the quantity when the button is clicked', () => {
+    component.items = getExpectedItems();
+    const spy = spyOn(component, 'decreaseQuantity');
+
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.decrease-qty')).nativeElement;
+    button.click();
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should decrease the desired quantity', () => {
+    component.items = getExpectedItems();
+    component.items[0].desiredQuantity = 2
+    
+    component.decreaseQuantity(component.items[0]);
+
+    expect(component.items[0].desiredQuantity).toEqual(1);
+  });
+
+  it('should return zero if the desired quantity is undefined and the desired quantity is decreases', () => {
+    component.items = getExpectedItems();
+    
+    component.decreaseQuantity(component.items[0]);
+
+    expect(component.items[0].desiredQuantity).toEqual(0);
   });
 
   function getExpectedMenu(){
