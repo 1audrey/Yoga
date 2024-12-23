@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { routes } from './app-routing.module';
 import { By } from '@angular/platform-browser';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -14,7 +15,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent, NavigationBarComponent],
-      imports: [MatIconModule, RouterModule.forRoot(routes), HttpClientTestingModule],
+      imports: [MatIconModule, RouterModule.forRoot(routes), HttpClientTestingModule, MatMenuModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
