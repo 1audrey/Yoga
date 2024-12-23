@@ -20,6 +20,7 @@ import { CartComponent } from './cart/cart.component';
 import { ThankYouOrderComponent } from './thank-you-order/thank-you-order.component';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     MatCardModule,
     HttpClientModule,
+    MatMenuModule,
   ],
   providers: [NativeDateAdapter],
   bootstrap: [AppComponent],

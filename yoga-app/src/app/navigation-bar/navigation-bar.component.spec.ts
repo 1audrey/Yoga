@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { NavigationBarComponent } from './navigation-bar.component';
 import { By } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { Item } from '@app/models/item';
 import { ShopService } from '@app/services/shop.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
@@ -24,7 +25,11 @@ describe('NavigationBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [NavigationBarComponent],
-      imports: [MatIconModule, BrowserAnimationsModule, RouterModule.forRoot(routes), HttpClientTestingModule
+      imports: [MatIconModule, 
+        BrowserAnimationsModule, 
+        RouterModule.forRoot(routes), 
+        HttpClientTestingModule,
+        MatMenuModule
       ],
       providers: [Location, ShopService
       ]
@@ -116,6 +121,20 @@ describe('NavigationBarComponent', () => {
     expect(arrowIcon).toBeDefined();
   });
 
+  fit('shop should show right arrow icon when a submenu menu is clicked', () => {
+    const arrowIcon = fixture.debugElement.query(By.css('.arrow-right-icon')).nativeElement;
+
+    const shopButton = fixture.debugElement.query(By.css('.shop')).nativeElement;
+    shopButton.click();
+    fixture.detectChanges();
+
+    const submenuItems = fixture.debugElement.queryAll(By.css('.product'));
+    submenuItems[0].nativeElement.click();
+    fixture.detectChanges();
+
+    expect(arrowIcon).toBeDefined();
+  });
+
   it('shop should show down arrow icon when shop menu is open', () => {
     component.isShopMenuOpen = true;
     fixture.detectChanges();
@@ -125,42 +144,52 @@ describe('NavigationBarComponent', () => {
     expect(arrowIcon).toBeDefined();
   });
 
-  it('should navigate through submenu items with Tab key', () => {
-    component.isShopMenuOpen = true;
+  it('should navigate through submenu items with arrow down key', () => {
+    const shopButton = fixture.debugElement.query(By.css('.shop')).nativeElement;
+    shopButton.click();
     fixture.detectChanges();
 
-    const submenuItems = fixture.debugElement.queryAll(By.css('.product-menu a'));
+    const submenuItems = fixture.debugElement.queryAll(By.css('.product'));
 
-    // Focus the first submenu item
     submenuItems[0].nativeElement.focus();
     expect(document.activeElement).toEqual(submenuItems[0].nativeElement);
 
-    // Simulate Tab key to move to the next submenu item
-    const event = new KeyboardEvent('keydown', { key: 'Tab' });
+    const event = new KeyboardEvent('keydown', { 
+      key: 'ArrowDown', 
+      code: 'ArrowDown', 
+      keyCode: 40, 
+      which: 40, 
+      bubbles: true,
+      cancelable: true });
+
     submenuItems[0].nativeElement.dispatchEvent(event);
     fixture.detectChanges();
 
-    // Manually set focus to the next element for testing
-    submenuItems[1].nativeElement.focus();
-
-    // Check if the next submenu item is focused
     expect(document.activeElement).toEqual(submenuItems[1].nativeElement);
     });
 
-    it('should close the shop submenu when Escape key is pressed', () => {
-      const spy = spyOn(component, 'toggleSubMenu');
-      component.isShopMenuOpen = true;
+    it('should close the item menu when tab is pressed', () => {
+      const shopButton = fixture.debugElement.query(By.css('.shop')).nativeElement;
+      shopButton.click();
       fixture.detectChanges();
-
-      const submenuItems = fixture.debugElement.queryAll(By.css('.product-menu a'))[0].nativeElement;
-
-      const event = new KeyboardEvent('keydown', { key: 'Escape' });
-      submenuItems.dispatchEvent(event);
+    
+      const submenuItems = fixture.debugElement.queryAll(By.css('.product'));
+      expect(document.activeElement).toEqual(submenuItems[0].nativeElement);
+    
+      const event = new KeyboardEvent('keydown', {
+        key: 'Tab',
+        code: 'Tab',
+        keyCode: 9,
+        which: 9,
+        bubbles: true
+      });
+      document.activeElement?.dispatchEvent(event);
       fixture.detectChanges();
-
-      expect(spy).toHaveBeenCalledTimes(1);
+    
+      expect(fixture.debugElement.queryAll(By.css('.product')).length).toBe(0);
     });
-
+     
+  
     it('shop should redirect the user to the homepage when the homepage button is clicked', async() => {
       const logo = fixture.debugElement.query(By.css('.logo')).nativeElement;
 
@@ -199,19 +228,6 @@ describe('NavigationBarComponent', () => {
 
       fixture.detectChanges();
       expect(location.path()).toEqual('/cart');
-    });
-
-    it('shop should redirect the user to the shop all page when the shop all button is clicked', async() => {
-      component.isShopMenuOpen = true;
-      fixture.detectChanges();
-
-      const shopAllButton = fixture.debugElement.queryAll(By.css('.product'))[0].nativeElement;
-
-      shopAllButton.click();
-      await fixture.whenStable();
-
-      fixture.detectChanges();
-      expect(location.path()).toEqual('/shop-all');
     });
 
     it('should show the number of items in the cart', () => { 

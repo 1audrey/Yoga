@@ -51,29 +51,18 @@ button:hover{
   align-items: center;
 }
 
-.shop-sub-menu{
-  display: flex;
-  background-color: var(--background-medium-lavender);;
-  color: var(--font-color-black);
-  flex-direction: column;
-  align-items: stretch;
-  position: absolute;
-  top: 100%;
-  left: 60%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  list-style: none;
-  z-index: 1000;
-}
-
 .product{
   text-decoration: none;
   color: var(--font-color-black);
   font-weight: 600;
+  background-color: var(--background-medium-lavender);
+  padding: 0.5rem;
 }
 
 .product:hover{
-  color: var(--font-color-white);
   font-weight: 600;
+  background-color: var(--background-light-lavender);
+  color: var(--font-color-black);
 }
 
 .product-menu{
