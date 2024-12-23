@@ -121,7 +121,7 @@ describe('NavigationBarComponent', () => {
     expect(arrowIcon).toBeDefined();
   });
 
-  fit('shop should show right arrow icon when a submenu menu is clicked', () => {
+  it('shop should show right arrow icon when a submenu menu is clicked', () => {
     const arrowIcon = fixture.debugElement.query(By.css('.arrow-right-icon')).nativeElement;
 
     const shopButton = fixture.debugElement.query(By.css('.shop')).nativeElement;
