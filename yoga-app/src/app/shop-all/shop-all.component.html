@@ -41,8 +41,14 @@
       </mat-card-actions>
     </mat-card>
   </div>
+  <filters 
+  (filterItems)="onFilterItems($event)" 
+  (filterColours)="onFilterColours($event)"
+  [maxPrice]="maxPrice"
+  [colours]="colours"
+  ></filters>
   <div class="body">
-    <mat-card class="card item" appearance="outlined" *ngFor="let item of items">
+    <mat-card class="card item" appearance="outlined" *ngFor="let item of filteredItems">
       <mat-card-header>
         <mat-card-title class="title item" [attr.aria-label]="item.name" role="heading">{{item.name}}</mat-card-title>
         <mat-card-subtitle class="price" role="text" [attr.aria-label]="'Price' + item.price +'pounds'">£{{item.price}}</mat-card-subtitle>
@@ -55,7 +61,8 @@
           <button mat-raised-button class="increase-qty" role="button" aria-label="Increase Quantity" (click)="increaseQuantity(item)">+</button> 
         </div>
         <div *ngIf="outOfStock[item.name]" role="alert" aria-label="Not enough stock available for more" class="no-stock-message">Not enough stock available for more</div>        
-        <button mat-raised-button role="button" class="action-button add-to-cart" [attr.aria-label]="'Add ' + item.name + ' to cart'" (click)="addToCart(item)">Add to cart</button>      </mat-card-actions>
+        <button mat-raised-button role="button" class="action-button add-to-cart" [attr.aria-label]="'Add ' + item.name + ' to cart'" (click)="addToCart(item)" [disabled]="item.desiredQuantity == 0 || item.desiredQuantity == undefined">Add to cart</button>      
+      </mat-card-actions>
     </mat-card>
   </div>
 </section>

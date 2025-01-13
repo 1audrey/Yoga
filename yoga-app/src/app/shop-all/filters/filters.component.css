@@ -1,0 +1,50 @@
+.filters {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+  }
+}
+
+.mat-chip-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.chip-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .chip-container {
+    grid-template-columns: 1fr; /* Single column on smaller screens */
+  }
+}
+
+.mat-standard-chip {
+  width: 20px; 
+  height: 20px;
+  border-radius: 50%;
+}
+
+.multicolour {
+  background: radial-gradient(circle, orange, yellow, turquoise, green, rgb(149, 86, 149));
+}
+
+.colour-chip {
+  border: 3px solid transparent; 
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.selected-chip {
+  border: 3px solid var(--background-dark-lavender); 
+}

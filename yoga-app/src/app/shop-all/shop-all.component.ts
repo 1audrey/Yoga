@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ShopService } from '@app/services/shop.service';
-import { MatCardModule } from '@angular/material/card';
 import { Item } from '@app/models/item';
 import { CartService } from '@app/services/cart-service/cart.service';
 import { Router } from '@angular/router';
@@ -15,12 +14,17 @@ export class ShopAllComponent {
   shopMenu: any = [];
   items: Item[] = [];
   outOfStock: { [key: string]: boolean } = {};
+  filteredItems: Item[] = [];
+  maxPrice: number = 0;
+  selectedColours: string[] = [];
+  colours: string[] = [];
 
   constructor(private shopService: ShopService, private cartService:CartService, private router: Router){}
 
   ngOnInit(){
     this.getMenus();
     this.getItems();
+    this.filteredItems = this.items;
   }
   
   toggleDescription(){
@@ -47,12 +51,30 @@ export class ShopAllComponent {
   
   decreaseQuantity(item: Item): void {
     item.desiredQuantity = item.desiredQuantity ?? 0; 
-    if (item.desiredQuantity > 1) { 
+    if (item.desiredQuantity > 0) { 
       item.desiredQuantity--; 
     } 
     if (item.desiredQuantity < item.quantity) {
        this.outOfStock[item.name] = false; 
     }
+  }
+
+  onFilterItems(maxPrice: number) {
+    this.filterItems(maxPrice, this.selectedColours);
+  }
+
+  onFilterColours(colours: string[]) {
+    this.selectedColours = colours;
+    this.filterItems(this.maxPrice, this.selectedColours);
+  }
+
+  private filterItems(maxPrice: number, colours: string[]) {
+    this.filteredItems = this.items.filter(item => 
+      item.price <= maxPrice && 
+      (colours.length === 0 || 
+        (item.colour && (colours.includes(item.colour) || 
+        (item.colour.includes('/') && colours.includes('multicolour')))))
+    );
   }
 
   private getMenus(){
@@ -66,6 +88,8 @@ export class ShopAllComponent {
    private getItems() {
     this.shopService.getItems().subscribe(listOfItems => { 
       this.items = listOfItems; 
+      this.maxPrice = Math.max(...this.items.map(item => item.price));
+      this.colours = Array.from(new Set(this.items.map(item => item.colour ? (item.colour.includes('/') ? 'multicolour' : item.colour) : undefined).filter(colour => colour !== undefined))) as string[];    
     });
   }
 }
