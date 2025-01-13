@@ -9,6 +9,12 @@ import { routes } from '@app/app-routing.module';
 import { Item } from '@app/models/item';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CartService } from '@app/services/cart-service/cart.service';
+import { FiltersComponent } from './filters/filters.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSliderModule } from '@angular/material/slider';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatChipsModule } from '@angular/material/chips';
+import { Observable, of } from 'rxjs';
 
 describe('ShopAllComponent', () => {
   let component: ShopAllComponent;
@@ -21,12 +27,19 @@ describe('ShopAllComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations:[ShopAllComponent],
-      imports: [MatCardModule, RouterModule.forRoot(routes), HttpClientTestingModule, RouterModule], 
+      declarations: [ShopAllComponent, FiltersComponent],
+      imports: [MatCardModule, 
+        RouterModule.forRoot(routes),
+        HttpClientTestingModule, 
+        RouterModule, 
+        MatExpansionModule, 
+        MatSliderModule,
+        BrowserAnimationsModule,
+        MatChipsModule],
       providers: [Location, ShopService, CartService
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ShopAllComponent);
     component = fixture.componentInstance;
@@ -216,16 +229,18 @@ describe('ShopAllComponent', () => {
   });
 
   it('should add to the cart when add to cart button is clicked', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 1;
+
     const spy = spyOn(component, 'addToCart');
 
     fixture.detectChanges();
 
-    const button = fixture.debugElement.query(By.css('.action-button.add-to-cart')).nativeElement;
+    const button = fixture.debugElement.queryAll(By.css('.action-button.add-to-cart'))[0].nativeElement;
     button.click();
     fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalledOnceWith(component.items[0]);
+    expect(spy).toHaveBeenCalledOnceWith(component.filteredItems[0]);
   });
 
   it('should add an item to the cart', () => {
@@ -246,7 +261,7 @@ describe('ShopAllComponent', () => {
   });
 
  it('should have a decrease quantity button', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
 
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('.decrease-qty')).nativeElement;
@@ -258,7 +273,7 @@ describe('ShopAllComponent', () => {
   });
 
   it('should have an increase quantity button', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
 
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('.increase-qty')).nativeElement;
@@ -270,7 +285,7 @@ describe('ShopAllComponent', () => {
   });
 
   it('should show zero if the desired quantity is not defined', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
 
     fixture.detectChanges();
     
@@ -280,8 +295,8 @@ describe('ShopAllComponent', () => {
   });
 
   it('should show the desired quantity', () => {
-    component.items = getExpectedItems();
-    component.items[0].desiredQuantity = 2;
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 2;
 
     fixture.detectChanges();
     
@@ -292,7 +307,7 @@ describe('ShopAllComponent', () => {
   });
 
   it('should increase the quantity when the button is clicked', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
     const spy = spyOn(component, 'increaseQuantity');
 
     fixture.detectChanges();
@@ -303,30 +318,30 @@ describe('ShopAllComponent', () => {
   });
 
   it('should increase the desired quantity', () => {
-    component.items = getExpectedItems();
-    component.items[0].desiredQuantity = 2
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 2;
     
-    component.increaseQuantity(component.items[0]);
+    component.increaseQuantity(component.filteredItems[0]);
 
-    expect(component.items[0].desiredQuantity).toEqual(3);
+    expect(component.filteredItems[0].desiredQuantity).toEqual(3);
   });
 
   it('should not increase the desired quantity if there is not enough stock available', () => {
-    component.items = getExpectedItems();
-    component.items[0].desiredQuantity = 2
-    component.items[0].quantity = 2;
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 2;
+    component.filteredItems[0].quantity = 2;
     
-    component.increaseQuantity(component.items[0]);
+    component.increaseQuantity(component.filteredItems[0]);
 
-    expect(component.items[0].desiredQuantity).toEqual(2);
+    expect(component.filteredItems[0].desiredQuantity).toEqual(2);
   });
 
   it('should show error message when the desired quantity is lower than the stock available', () => {
-    component.items = getExpectedItems();
-    component.items[0].desiredQuantity = 2;
-    component.items[0].quantity = 2;
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 2;
+    component.filteredItems[0].quantity = 2;
 
-    component.increaseQuantity(component.items[0]);
+    component.increaseQuantity(component.filteredItems[0]);
     fixture.detectChanges();
     
     const error = fixture.debugElement.query(By.css('.no-stock-message')).nativeElement;
@@ -335,30 +350,30 @@ describe('ShopAllComponent', () => {
     expect(error.getAttribute('role')).toEqual('alert');
     expect(error.getAttribute('aria-label')).toEqual('Not enough stock available for more');
     expect(error.innerText).toEqual('Not enough stock available for more');
-    expect(component.outOfStock[component.items[0].name]).toBeTrue();
+    expect(component.outOfStock[component.filteredItems[0].name]).toBeTrue();
   });
 
   it('should not show error message when the desired quantity is equal to the stock available', () => {
-    component.items = getExpectedItems();
-    component.items[0].desiredQuantity = 1;
-    component.items[0].quantity = 2;
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 1;
+    component.filteredItems[0].quantity = 2;
 
-    component.increaseQuantity(component.items[0]);
+    component.increaseQuantity(component.filteredItems[0]);
     fixture.detectChanges();
     
-    expect(component.outOfStock[component.items[0].name]).not.toBeDefined();
+    expect(component.outOfStock[component.filteredItems[0].name]).not.toBeDefined();
   });
 
   it('should increase the desired quantity if the desired quantity is undefined', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
     
-    component.increaseQuantity(component.items[0]);
+    component.increaseQuantity(component.filteredItems[0]);
 
-    expect(component.items[0].desiredQuantity).toEqual(1);
+    expect(component.filteredItems[0].desiredQuantity).toEqual(1);
   });
 
   it('should decrease the quantity when the button is clicked', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
     const spy = spyOn(component, 'decreaseQuantity');
 
     fixture.detectChanges();
@@ -369,21 +384,106 @@ describe('ShopAllComponent', () => {
   });
 
   it('should decrease the desired quantity', () => {
-    component.items = getExpectedItems();
-    component.items[0].desiredQuantity = 2
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 2
     
-    component.decreaseQuantity(component.items[0]);
+    component.decreaseQuantity(component.filteredItems[0]);
 
-    expect(component.items[0].desiredQuantity).toEqual(1);
+    expect(component.filteredItems[0].desiredQuantity).toEqual(1);
+  });
+
+  it('should disable the add to cart button if the desired quantity is zero', () => {
+    component.filteredItems = getExpectedItems();
+    component.filteredItems[0].desiredQuantity = 0;
+    
+    fixture.detectChanges();
+    const addCartButton = fixture.debugElement.queryAll(By.css('.add-to-cart'))[0].nativeElement;
+
+    expect(addCartButton.disabled).toBeTruthy();
+  });
+
+  it('should disable the add to cart button if the desired quantity is undefined', () => {
+    component.filteredItems = getExpectedItems();
+    
+    fixture.detectChanges();
+    const addCartButton = fixture.debugElement.queryAll(By.css('.add-to-cart'))[0].nativeElement;
+
+    expect(addCartButton.disabled).toBeTruthy();
   });
 
   it('should return zero if the desired quantity is undefined and the desired quantity is decreases', () => {
-    component.items = getExpectedItems();
+    component.filteredItems = getExpectedItems();
     
-    component.decreaseQuantity(component.items[0]);
+    component.decreaseQuantity(component.filteredItems[0]);
 
-    expect(component.items[0].desiredQuantity).toEqual(0);
+    expect(component.filteredItems[0].desiredQuantity).toEqual(0);
   });
+
+  it('should filter the shop', () => {
+    const filters = fixture.debugElement.query(By.css('filters')).nativeElement;
+
+    expect(filters).toBeDefined();
+  });
+
+  it('should return the filtered items on initialisation', () => {
+    component.items = getExpectedItems();
+
+    component.ngOnInit();
+
+    expect(component.filteredItems).toEqual(component.items);
+  });
+
+  it('should return the maximum price of all items', () => {
+    const items = of(getExpectedItems());
+    spyOn(shopService, 'getItems').and.returnValue(items)
+    const expectedMaxPrice = Math.max(...getExpectedItems().map(item => item.price));
+
+    component.ngOnInit();
+
+    expect(component.maxPrice).toEqual(expectedMaxPrice);
+  });
+
+  it('should filter the items by prices', () => {
+    component.items = getExpectedItems();
+    const maxPrice = 40;
+
+    component.onFilterItems(maxPrice);
+
+    expect(component.filteredItems).toEqual([component.items[0]]);
+    expect(component.filteredItems.length).toEqual(1);
+  });
+
+  it('should update selectedColours and call filterItems', () => {
+    const colours = ['red', 'blue'];
+
+    component.onFilterColours(colours);
+
+    expect(component.selectedColours).toEqual(colours);
+  });
+
+  it('should filter items correctly including multicolour items', () => {
+    const items: Item[] = [
+      { name: 'Item 1', price: 100, colour: 'red', quantity: 10 },
+      { name: 'Item 2', price: 200, colour: 'blue', quantity: 5 },
+      { name: 'Item 3', price: 150, colour: 'red/blue', quantity: 8 },
+      { name: 'Item 4', price: 250, colour: 'green', quantity: 3 }
+    ];
+
+    spyOn(shopService, 'getItems').and.returnValue(of(items));
+    component.ngOnInit();
+
+    component.onFilterColours(['multicolour']);
+    expect(component.filteredItems).toEqual([
+      { name: 'Item 3', price: 150, colour: 'red/blue', quantity: 8 }
+    ]);
+
+    component.onFilterColours(['red', 'multicolour']);
+    expect(component.filteredItems).toEqual([
+      { name: 'Item 1', price: 100, colour: 'red', quantity: 10 },
+      { name: 'Item 3', price: 150, colour: 'red/blue', quantity: 8 }
+    ]);
+  });
+
 
   function getExpectedMenu(){
     return [
@@ -396,7 +496,9 @@ describe('ShopAllComponent', () => {
 
   function getExpectedItems(){
     return [
-      {name: `Yoga legging pink`, price: 40, quantity: 20, image: ''}
+      {name: `Yoga legging pink`, price: 40, quantity: 20, image: ''},
+      {name: `Yoga legging black`, price: 45, quantity: 10, image: ''}
+
     ]
   }
 });

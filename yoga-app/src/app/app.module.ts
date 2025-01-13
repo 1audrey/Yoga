@@ -20,7 +20,12 @@ import { CartComponent } from './cart/cart.component';
 import { ThankYouOrderComponent } from './thank-you-order/thank-you-order.component';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import { FiltersComponent } from './shop-all/filters/filters.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +37,7 @@ import {MatMenuModule} from '@angular/material/menu';
     HomeComponent,
     CartComponent,
     ThankYouOrderComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +54,9 @@ import {MatMenuModule} from '@angular/material/menu';
     MatCardModule,
     HttpClientModule,
     MatMenuModule,
+    MatExpansionModule,
+    MatSliderModule,
+    MatChipsModule,
   ],
   providers: [NativeDateAdapter],
   bootstrap: [AppComponent],

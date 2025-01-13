@@ -151,7 +151,7 @@ describe('BookClassesComponent', () => {
     fixture.detectChanges();
     const button = fixture.debugElement.query(By.css('.action-button')).nativeElement;
 
-    expect(button.disabled).toBeFalsy;
+    expect(button.disabled).toBeFalsy();
   });
 
   it('should redirect the user to the cart page when a class is added to the cart', () => {

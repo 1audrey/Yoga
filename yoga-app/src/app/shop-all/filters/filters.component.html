@@ -1,0 +1,30 @@
+<h3 class="visually-hidden">Filter products</h3>
+<div class="filters">
+    <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+            <mat-expansion-panel-header>
+                <mat-panel-title class="price-filter" tabindex="0" aria-label="Filter by price">Filter by price</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-slider thumbLabel [displayWith]="formatLabel" class="slider" aria-label="Price slider"
+                aria-valuemin="0" [max]="maxPrice" [value]="sliderValue" (input)="onSliderChange($event.value)">
+                <input matSliderThumb>
+            </mat-slider>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+            <mat-expansion-panel-header>
+                <mat-panel-title class="colour-filter" tabindex="0" aria-label="Filter by colour">Filter by colour</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+                <mat-chip-list class="colour-selection" aria-label="Colour selection" role="listbox">
+                    <mat-chip class="colour-chip" *ngFor="let colour of allColours" [attr.aria-label]="colour" (click)="selectColour(colour)"
+                        role="option" (keydown)="handleKeydown($event, colour)"
+                        [ngClass]="{'multicolour': colour === 'multicolour', 'selected-chip': isSelected(colour)}"
+                        [ngStyle]="colour !== 'multicolour' ? {'background-color': colour} : {}">
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
