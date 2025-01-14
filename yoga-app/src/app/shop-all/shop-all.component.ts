@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ShopService } from '@app/services/shop.service';
 import { Item } from '@app/models/item';
 import { CartService } from '@app/services/cart-service/cart.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'shop-all',
@@ -18,12 +18,19 @@ export class ShopAllComponent {
   maxPrice: number = 0;
   selectedColours: string[] = [];
   colours: string[] = [];
+  routeType: string = '';
 
-  constructor(private shopService: ShopService, private cartService:CartService, private router: Router){}
+  constructor(private shopService: ShopService, 
+    private cartService:CartService, 
+    private router: Router,
+    private route: ActivatedRoute){}
 
   ngOnInit(){
+    this.route.params.subscribe(params => {
+      this.routeType = params['type'] || 'default';
+      this.getItems();
+    });
     this.getMenus();
-    this.getItems();
     this.filteredItems = this.items;
   }
   
@@ -85,11 +92,16 @@ export class ShopAllComponent {
       }
     });
   }
-   private getItems() {
-    this.shopService.getItems().subscribe(listOfItems => { 
-      this.items = listOfItems; 
+
+  private getItems() {
+    this.shopService.getItems().subscribe(listOfItems => {
+      if (this.routeType === 'default') {
+        this.items = listOfItems;
+      } else {
+        this.items = listOfItems.filter(item => item.image?.includes(this.routeType));
+      }
       this.maxPrice = Math.max(...this.items.map(item => item.price));
-      this.colours = Array.from(new Set(this.items.map(item => item.colour ? (item.colour.includes('/') ? 'multicolour' : item.colour) : undefined).filter(colour => colour !== undefined))) as string[];    
+      this.colours = Array.from(new Set(this.items.map(item => item.colour ? (item.colour.includes('/') ? 'multicolour' : item.colour) : undefined).filter(colour => colour !== undefined))) as string[];
     });
   }
 }

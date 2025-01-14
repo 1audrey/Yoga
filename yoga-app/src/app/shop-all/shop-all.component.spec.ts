@@ -4,7 +4,7 @@ import { ShopAllComponent } from './shop-all.component';
 import { By } from '@angular/platform-browser';
 import { ShopService } from '@app/services/shop.service';
 import { MatCardModule } from '@angular/material/card';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { routes } from '@app/app-routing.module';
 import { Item } from '@app/models/item';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -24,6 +24,7 @@ describe('ShopAllComponent', () => {
   let httpMock: HttpTestingController;
   let cartService: CartService;
   let router: Router;
+  let route: ActivatedRoute;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,7 +37,13 @@ describe('ShopAllComponent', () => {
         MatSliderModule,
         BrowserAnimationsModule,
         MatChipsModule],
-      providers: [Location, ShopService, CartService
+      providers: [Location, ShopService, CartService, 
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ type: 'initial-type' })
+          }
+        }
       ]
     })
       .compileComponents();
@@ -47,6 +54,7 @@ describe('ShopAllComponent', () => {
     shopService = TestBed.inject(ShopService);
     cartService = TestBed.inject(CartService);
     router = TestBed.inject(Router);
+    route = TestBed.inject(ActivatedRoute)
     httpMock = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
@@ -55,7 +63,7 @@ describe('ShopAllComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have heading h2 visible', () => {
+  it('should have heading h2 visually hidden', () => {
     const h2 = fixture.debugElement.query(By.css('.visually-hidden')).nativeElement;
     expect(h2).toBeDefined();
     expect(h2.innerText).toEqual('Shop All Products')
@@ -187,23 +195,30 @@ describe('ShopAllComponent', () => {
     }
   });
 
-  it('should get the items from the service', () => { 
-    const mockItems = getExpectedItems(); 
-
-    const req = httpMock.expectOne('assets/items.json'); 
-    expect(req.request.method).toBe('GET'); 
-    req.flush(mockItems); 
-    
+  it('should get the items from the service', () => {
+    const mockItems = getExpectedItems();
+    route.params = of({ type: 'default' });
+    spyOn(shopService, 'getItems').and.returnValue(of(mockItems));
+  
+    component.ngOnInit();
     expect(component.items).toEqual(mockItems);
-  }); 
+  
+    const req = httpMock.expectOne('assets/items.json');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockItems);
+  });
 
   it('should have all the items', () => { 
     const expectedItems = getExpectedItems();
+    const mockItems = getExpectedItems();
+    route.params = of({ type: 'default' });
+    spyOn(shopService, 'getItems').and.returnValue(of(mockItems));
 
     const req = httpMock.expectOne('assets/items.json'); 
     expect(req.request.method).toBe('GET'); 
     req.flush(expectedItems); 
 
+    component.ngOnInit();
     fixture.detectChanges();
 
     const shops = fixture.debugElement.queryAll(By.css('.card.item')); 
@@ -435,7 +450,8 @@ describe('ShopAllComponent', () => {
 
   it('should return the maximum price of all items', () => {
     const items = of(getExpectedItems());
-    spyOn(shopService, 'getItems').and.returnValue(items)
+    route.params = of({ type: 'default' });
+    spyOn(shopService, 'getItems').and.returnValue(items);
     const expectedMaxPrice = Math.max(...getExpectedItems().map(item => item.price));
 
     component.ngOnInit();
@@ -462,14 +478,16 @@ describe('ShopAllComponent', () => {
   });
 
   it('should filter items correctly including multicolour items', () => {
-    const items: Item[] = [
+    const mockItems: Item[] = [
       { name: 'Item 1', price: 100, colour: 'red', quantity: 10 },
       { name: 'Item 2', price: 200, colour: 'blue', quantity: 5 },
       { name: 'Item 3', price: 150, colour: 'red/blue', quantity: 8 },
       { name: 'Item 4', price: 250, colour: 'green', quantity: 3 }
     ];
 
-    spyOn(shopService, 'getItems').and.returnValue(of(items));
+    route.params = of({ type: 'default' });
+    spyOn(shopService, 'getItems').and.returnValue(of(mockItems));
+
     component.ngOnInit();
 
     component.onFilterColours(['multicolour']);
@@ -484,11 +502,27 @@ describe('ShopAllComponent', () => {
     ]);
   });
 
+  [
+    { type: 'women', expectedRouteType: 'women' },
+    { type: '', expectedRouteType: 'default' }
+  ].forEach(({ type, expectedRouteType }) => {
+    it(`should set routeType to '${expectedRouteType}' and return the items`, (() => {
+      const items = of(getExpectedItems());
+      const expectedItems = getExpectedItems()
+      route.params = of({ type });
+      spyOn(shopService, 'getItems').and.returnValue(items);
+
+      component.ngOnInit();
+        expect(component.routeType).toEqual(expectedRouteType);
+        expect(shopService.getItems).toHaveBeenCalled();
+        expect(component.items).toEqual(expectedItems);
+    }));
+  });
 
   function getExpectedMenu(){
     return [
       {name: 'Men Clothes', route: 'men-clothes', image:'../../assets/menu/shop-men-yoga-clothes.jpg'},
-      {name: 'Women Clothes', route: 'women-clothes', image:'../../assets/menu/shop-women-yoga-clothes.jpg'},
+      {name: 'Women Clothes', route: 'shop-all/women', image:'../../assets/menu/shop-women-yoga-clothes.jpg'},
       {name: 'Mats', route:'yoga-mats', image:'../../assets/menu/yoga-mats.jpg'},
       {name: 'Accessories', route:'yoga-accessories', image:'../../assets/menu/yoga-accessories.jpg'},
       {name: 'Vouchers', route: 'vouchers', image:'../../assets/menu/yoga-vouchers.jpg'}]
@@ -496,8 +530,8 @@ describe('ShopAllComponent', () => {
 
   function getExpectedItems(){
     return [
-      {name: `Yoga legging pink`, price: 40, quantity: 20, image: ''},
-      {name: `Yoga legging black`, price: 45, quantity: 10, image: ''}
+      {name: `Yoga legging pink`, price: 40, quantity: 20, image: "../../assets/shop/women/woman-pink-set.jpg"},
+      {name: `Yoga legging black`, price: 45, quantity: 10, image: "../../assets/shop/women/woman-black-set.jpg"}
 
     ]
   }
