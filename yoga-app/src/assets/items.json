@@ -8,6 +8,35 @@
     {"name": "Yoga legging colour", "price": 40, "quantity": 20, "colour":"red/pink", "image": "../../assets/shop/women/woman-red-pink-set.jpg"},
     {"name": "Yoga top beige", "price": 20, "quantity": 20, "colour":"beige", "image": "../../assets/shop/women/woman-beige-top.jpg"},
     {"name": "Yoga bra pink", "price": 20, "quantity": 20, "colour":"pink", "image": "../../assets/shop/women/woman-pink-bra.jpg"},
-    {"name": "Yoga bra blue", "price": 20, "quantity": 20, "colour":"blue", "image": "../../assets/shop/women/woman-blue-bra.jpg"}
+    {"name": "Yoga bra blue", "price": 20, "quantity": 20, "colour":"blue", "image": "../../assets/shop/women/woman-blue-bra.jpg"},
+
+    {"name": "Man trouser black", "price": 50, "quantity": 10, "colour":"black", "image": "../../assets/shop/men/man-black-pants.jpg"},
+    {"name": "Man legging short black", "price": 50, "quantity": 10, "colour":"black", "image": "../../assets/shop/men/man-black-short-legging.jpg"},
+    {"name": "Man short black", "price": 35, "quantity": 10, "colour":"black", "image": "../../assets/shop/men/man-black-short.jpg"},
+    {"name": "Man sweatshirt black", "price": 45, "quantity": 10, "colour":"black", "image": "../../assets/shop/men/man-black-sweatshirt.jpg"},
+    {"name": "Man short black/white", "price": 30, "quantity": 10, "colour":"black/white", "image": "../../assets/shop/men/man-black-white-short.jpg"},
+    {"name": "Man sweatshirt blue", "price": 45, "quantity": 10, "colour":"blue", "image": "../../assets/shop/men/man-blue-sweatshirt.jpg"},
+    {"name": "Man Tshirt multicolour", "price": 25, "quantity": 10, "colour":"pink/yellow", "image": "../../assets/shop/men/man-colorful-tshirt.jpg"},
+    {"name": "Man sweatshirt gray", "price": 45, "quantity": 10, "colour":"gray", "image": "../../assets/shop/men/man-gray-sweatshirt.jpg"},
+    {"name": "Man Tshirt green", "price": 25, "quantity": 10, "colour":"green", "image": "../../assets/shop/men/man-green-tshirt.jpg"},
+    {"name": "Man Tshirt Levis", "price": 25, "quantity": 10, "colour":"white", "image": "../../assets/shop/men/man-levis-tshirt.jpg"},
+    {"name": "Man Tshirt red", "price": 25, "quantity": 10, "colour":"red", "image": "../../assets/shop/men/man-red-tshirt.jpg"},
+    {"name": "Man Tshirt RVCA", "price": 25, "quantity": 10, "colour":"black", "image": "../../assets/shop/men/man-rvca-tshirt.jpg"},
+
+    {"name": "Yoga mat black", "price": 35, "quantity": 5, "colour":"black", "image": "../../assets/shop/yoga-mats/black-mat.jpg"},
+    {"name": "Yoga mat blue", "price": 35, "quantity": 5, "colour":"blue", "image": "../../assets/shop/yoga-mats/blue-mat.jpg"},
+    {"name": "Yoga mat pink", "price": 35, "quantity": 5, "colour":"pink", "image": "../../assets/shop/yoga-mats/pink-mat.jpg"},
+    {"name": "Yoga mat purple", "price": 35, "quantity": 5, "colour":"purple", "image": "../../assets/shop/yoga-mats/purple-mat.jpg"},
+
+    {"name": "Yoga blocks", "price": 15, "quantity": 5, "colour":"brown", "image": "../../assets/shop/yoga-accessories/blocks.jpg"},
+    {"name": "Yoga bottle colourful", "price": 5, "quantity": 15, "colour":"blue/orange", "image": "../../assets/shop/yoga-accessories/colourful-bottle.jpg"},
+    {"name": "Yoga eye mask", "price": 10, "quantity": 15, "colour":"purple/white", "image": "../../assets/shop/yoga-accessories/eye-mask.jpg"},
+    {"name": "Yoga bottle pink", "price": 5, "quantity": 5, "colour":"pink", "image": "../../assets/shop/yoga-accessories/pink-bottle.jpg"},
+    {"name": "Yoga weight 2kg pink", "price": 15, "quantity": 5, "colour":"pink", "image": "../../assets/shop/yoga-accessories/weight.jpg"},
+    {"name": "Yoga weight 5kg blue", "price": 15, "quantity": 5, "colour":"blue", "image": "../../assets/shop/yoga-accessories/weight.jpg"},
+    {"name": "Yoga bottle white", "price": 5, "quantity": 5, "colour":"white", "image": "../../assets/shop/yoga-accessories/white-bottle.jpg"},
+
+    {"name": "Yoga vouchers £25", "price": 25, "image": "../../assets/shop/yoga-vouchers/yoga-vouchers.jpg"},
+    {"name": "Yoga vouchers £50", "price": 50, "image": "../../assets/shop/yoga-vouchers/yoga-vouchers.jpg"}
 
 ]
