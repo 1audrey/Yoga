@@ -460,19 +460,30 @@ describe('ShopAllComponent', () => {
   });
 
   it('should filter the items by prices', () => {
-    component.items = getExpectedItems();
+    const items = of(getExpectedItems());
+    const expectedFilteredItems = [
+      { name: 'Yoga legging pink', price: 40, quantity: 20, image: '../../assets/shop/women/woman-pink-set.jpg' },
+      { name: 'Man Tshirt red', price: 25, quantity: 10, colour: 'red', image: '../../assets/shop/men/man-red-tshirt.jpg' },
+      { name: 'Yoga mat purple', price: 35, quantity: 5, colour: 'purple', image: '../../assets/shop/yoga-mats/purple-mat.jpg' },
+      { name: 'Yoga bottle white', price: 5, quantity: 5, colour: 'white', image: '../../assets/shop/yoga-accessories/white-bottle.jpg' },
+      { name: 'Yoga vouchers', price: 25, image: '../../assets/shop/yoga-vouchers/yoga-vouchers.jpg' }
+    ];
     const maxPrice = 40;
+    route.params = of({ type: '' });
+    spyOn(shopService, 'getItems').and.returnValue(items);
 
-    component.onFilterItems(maxPrice);
+    component.ngOnInit();
 
-    expect(component.filteredItems).toEqual([component.items[0]]);
-    expect(component.filteredItems.length).toEqual(1);
+    component.onFilterItemsByPrice({ maxPrice });
+
+    expect(component.filteredItems).toEqual(expectedFilteredItems);
+    expect(component.filteredItems.length).toEqual(5);
   });
 
   it('should update selectedColours and call filterItems', () => {
     const colours = ['red', 'blue'];
 
-    component.onFilterColours(colours);
+    component.onFilteritemsByColours(colours);
 
     expect(component.selectedColours).toEqual(colours);
   });
@@ -490,12 +501,12 @@ describe('ShopAllComponent', () => {
 
     component.ngOnInit();
 
-    component.onFilterColours(['multicolour']);
+    component.onFilteritemsByColours(['multicolour']);
     expect(component.filteredItems).toEqual([
       { name: 'Item 3', price: 150, colour: 'red/blue', quantity: 8 }
     ]);
 
-    component.onFilterColours(['red', 'multicolour']);
+    component.onFilteritemsByColours(['red', 'multicolour']);
     expect(component.filteredItems).toEqual([
       { name: 'Item 1', price: 100, colour: 'red', quantity: 10 },
       { name: 'Item 3', price: 150, colour: 'red/blue', quantity: 8 }
@@ -503,12 +514,16 @@ describe('ShopAllComponent', () => {
   });
 
   [
-    { type: 'women', expectedRouteType: 'women' },
+    { type: 'women', expectedRouteType: 'women'},
+    { type: 'men', expectedRouteType: 'men' },
+    { type: 'yoga-mats', expectedRouteType: 'yoga-mats' },
+    { type: 'yoga-accessories', expectedRouteType: 'yoga-accessories' },
+    { type: 'yoga-vouchers', expectedRouteType: 'yoga-vouchers' },
     { type: '', expectedRouteType: 'default' }
   ].forEach(({ type, expectedRouteType }) => {
     it(`should set routeType to '${expectedRouteType}' and return the items`, (() => {
       const items = of(getExpectedItems());
-      const expectedItems = getExpectedItems()
+      const expectedItems = getExpectedItems().filter(item => item.image?.includes(`shop/${type}`));
       route.params = of({ type });
       spyOn(shopService, 'getItems').and.returnValue(items);
 
@@ -519,20 +534,36 @@ describe('ShopAllComponent', () => {
     }));
   });
 
+  it('should include items without a colour in the filtered items', () => {
+    const items = of(getExpectedItems());
+    route.params = of({ type: '' });
+
+    spyOn(shopService, 'getItems').and.returnValue(items);
+    component.ngOnInit();
+
+    component.onFilteritemsByColours([]);
+
+    expect(component.filteredItems.length).toEqual(6);
+    expect(component.filteredItems.some(item => item.name === 'Yoga vouchers')).toBeTrue();
+  });
+
   function getExpectedMenu(){
     return [
-      {name: 'Men Clothes', route: 'men-clothes', image:'../../assets/menu/shop-men-yoga-clothes.jpg'},
+      {name: 'Men Clothes', route: 'shop-all/men', image:'../../assets/menu/shop-men-yoga-clothes.jpg'},
       {name: 'Women Clothes', route: 'shop-all/women', image:'../../assets/menu/shop-women-yoga-clothes.jpg'},
-      {name: 'Mats', route:'yoga-mats', image:'../../assets/menu/yoga-mats.jpg'},
-      {name: 'Accessories', route:'yoga-accessories', image:'../../assets/menu/yoga-accessories.jpg'},
-      {name: 'Vouchers', route: 'vouchers', image:'../../assets/menu/yoga-vouchers.jpg'}]
+      {name: 'Mats', route:'shop-all/yoga-mats', image:'../../assets/menu/yoga-mats.jpg'},
+      {name: 'Accessories', route:'shop-all/yoga-accessories', image:'../../assets/menu/yoga-accessories.jpg'},
+      {name: 'Vouchers', route: 'shop-all/yoga-vouchers', image:'../../assets/menu/yoga-vouchers.jpg'}]
   }
 
   function getExpectedItems(){
     return [
       {name: `Yoga legging pink`, price: 40, quantity: 20, image: "../../assets/shop/women/woman-pink-set.jpg"},
-      {name: `Yoga legging black`, price: 45, quantity: 10, image: "../../assets/shop/women/woman-black-set.jpg"}
-
+      {name: `Yoga legging black`, price: 45, quantity: 10, image: "../../assets/shop/women/woman-black-set.jpg"},
+      {name: "Man Tshirt red", price: 25, quantity: 10, colour: 'red', image: "../../assets/shop/men/man-red-tshirt.jpg"},
+      {name: "Yoga mat purple", price: 35, quantity: 5, colour:"purple", image: "../../assets/shop/yoga-mats/purple-mat.jpg"},
+      {name: "Yoga bottle white", price: 5, quantity: 5, colour:"white", image: "../../assets/shop/yoga-accessories/white-bottle.jpg"},
+      {name: "Yoga vouchers", price: 25, image: "../../assets/shop/yoga-vouchers/yoga-vouchers.jpg"}
     ]
   }
 });
